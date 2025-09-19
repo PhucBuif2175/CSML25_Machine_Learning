@@ -7,7 +7,7 @@ _Vietnam National University-Ho Chi Minh City (VNU-HCMC)_
 
 ---
 
-## 1 General Information  
+## 1. General Information  
 
 - **Course name:** Machine Learning (CO3117)  
 - **Semester:** 251 — Academic Year 2025–2026  
@@ -22,7 +22,7 @@ _Vietnam National University-Ho Chi Minh City (VNU-HCMC)_
 | Bùi Ngọc Phúc     | 2312665    | phucbuif2175@hcmut.edu.vn      |
 
 
-## 2️ Assignment Information  
+## 2️. Assignment Information  
 
 **🎯 Goals**
 - Build the **machine learning pipeline**: EDA → preprocessing → feature extraction → model training → evaluation.  
@@ -52,7 +52,7 @@ _Vietnam National University-Ho Chi Minh City (VNU-HCMC)_
 
 ---
 
-## 3️ Project Folder Structure  
+## 3️. Project Folder Structure  
 
 ```
 📦 csml25/
@@ -66,7 +66,7 @@ _Vietnam National University-Ho Chi Minh City (VNU-HCMC)_
 
 ---
 
-## 4️ Github & Colab Notebooks   
+## 4️. Github & Colab Notebooks   
 
 🌐 **Project Page:** [https://phucbuif2175.github.io/CSML25_Machine_Learning/](https://phucbuif2175.github.io/CSML25_Machine_Learning/)  
 🐙 **GitHub Repository:** [https://github.com/PhucBuif2175/CSML25_Machine_Learning/](https://github.com/PhucBuif2175/CSML25_Machine_Learning/)

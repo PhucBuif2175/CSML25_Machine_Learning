@@ -1,4 +1,4 @@
-# 📘 CSML25 
+# CSML25 
 Ho Chi Minh City University of Technology (HCMUT)  
 _Vietnam National University-Ho Chi Minh City (VNU-HCMC)_  
 
@@ -7,29 +7,28 @@ _Vietnam National University-Ho Chi Minh City (VNU-HCMC)_
 
 ---
 
-## 1️⃣ General Information  
+## 1 General Information  
 
-- 📚 **Course name:** Machine Learning (CO3117)  
-- 🗓️ **Semester:** 251 — Academic Year 2025–2026  
-- 👨‍🏫 **Instructor:** Lê Thành Sách — _ltsach@hcmut.edu.vn_  
+- **Course name:** Machine Learning (CO3117)  
+- **Semester:** 251 — Academic Year 2025–2026  
+- **Instructor:** Lê Thành Sách — _ltsach@hcmut.edu.vn_  
 
-**👥 Team Members**
+**Team Members**
 
 | Name              | Student ID | Email address                  |
 |-------------------|------------|--------------------------------|
-| Nguyễn Văn A      | 2311000    | a.nguyen2311000@hcmut.edu.vn   |
-| Trần Văn B        | 2312000    | b.tran2312000@hcmut.edu.vn     |
-| Lê Thị C          | 2313000    | c.le2313000@hcmut.edu.vn       |
-| **Bùi Ngọc Phúc** | 2312665    | phucbuif2175@hcmut.edu.vn      |
+| Nguyễn Đăng Khánh | 2311512    | khanh.nguyennttt040905@hcmut.edu.vn|
+| Đinh Hoàng Chung  | 2310359    | chung.dinhhoang@hcmut.edu.vn   |
+| Bùi Ngọc Phúc     | 2312665    | phucbuif2175@hcmut.edu.vn      |
 
----
 
-## 2️⃣ Assignment Information  
+## 2️ Assignment Information  
 
 **🎯 Goals**
 - Build the **machine learning pipeline**: EDA → preprocessing → feature extraction → model training → evaluation.  
-- Apply ML to **different data types**: tabular, text, images.  
-- Explore **extension topics** (HMM, advanced ML techniques).  
+- Practice implementing machine learning models on different types of data, such as tabular, text, and image data.
+- Develop the ability to analyze, compare, and evaluate the effectiveness of machine learning models using performance metrics.
+- Enhance programming, experimentation, and scientific reporting skills through practical implementation and structured documentation.  
 
 **⚡ How to Run the Notebooks**
 - Open in **Google Colab** → Click `Run All` → Wait for execution.  

@@ -65,7 +65,7 @@ _Vietnam National University-Ho Chi Minh City (VNU-HCMC)_
 
 ---
 
-## 4️⃣ Reports & Colab Notebooks   
+## 4️⃣ Github & Colab Notebooks   
 
 🌐 **Project Page:** [https://phucbuif2175.github.io/CSML25_Machine_Learning/](https://phucbuif2175.github.io/CSML25_Machine_Learning/)  
 🐙 **GitHub Repository:** [https://github.com/PhucBuif2175/CSML25_Machine_Learning/](https://github.com/PhucBuif2175/CSML25_Machine_Learning/)

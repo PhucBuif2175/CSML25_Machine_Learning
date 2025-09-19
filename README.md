@@ -1,44 +1,70 @@
-# CSML25_Machine_Learning
-Assignments 251 Machine learning - CO3117 of HCMUT
+# Ho Chi Minh City University of Technology (HCMUT) – Vietnam National University-Ho Chi Minh City (VNU-HCMC)
 
-Welcome to our project page!  
-This site is hosted with **GitHub Pages**.
+Machine Learning (CO3117) assignments, group TN01, team CSML25.
 
 ---
 
-## 📌 Course Information
-- Course: Machine learning - CO3117
-- Semester: 251
-- Instructor: Lê Thành Sách
+## 1. General information
+
+- **Course name:** Machine Learning (CO3117)  
+- **Semester:** 251, academic year: 2025–2026  
+- **Instructor:** Lê Thành Sách, email: ltsach@hcmut.edu.vn  
+
+**Team members:**
+
+| Name              | Student ID | Email address                        |
+|-------------------|------------|--------------------------------------|
+| Nguyễn Văn A      | 2311000    | a.nguyen2311000@hcmut.edu.vn         |
+| Trần Văn B        | 2312000    | b.tran2312000@hcmut.edu.vn           |
+| Lê Thị C          | 2313000    | c.le2313000@hcmut.edu.vn             |
+| Bùi Ngọc Phúc     | 2312665    | phucbuif2175@hcmut.edu.vn            |
 
 ---
 
-## 👥 Team Members
-- Nguyen Van A - 20123456
-- Tran Thi B - 20123457
-- Le Van C - 20123458
+## 2. Assignment information
+
+**Goals of this assignment:**
+- Implement the traditional machine learning pipeline: exploratory data analysis, preprocessing, feature extraction, model training, and evaluation.  
+- Apply ML techniques to different data types: tabular, text, images.
+
+**How to run the notebooks:**  
+Open the notebooks via Google Colab, then click **Run All**.
+
+**Requirements (from Colab default env, 2025-08-27):**
+
+| package     | version   |
+|-------------|-----------|
+| numpy       | 2.0.2     |
+| pandas      | 2.2.2     |
+| scikit-learn| 1.6.1     |
+| matplotlib  | 3.10.0    |
+| seaborn     | 0.13.2    |
+| torch       | 2.8.0+cu126 |
+
+**Datasets:**
+- Tabular: [Canie wellness](https://www.kaggle.com/datasets/aaronisomaisom3/canine-wellness-dataset-synthetic-10k-samples)  
+- Text: (To Be Determined)  
+- Image: (To Be Determined)  
+- Extension: (To Be Determined)  
+---
+
+## 3. Project’s folder structure
+
+- **notebooks/**: Jupyter/Colab notebooks (`.ipynb`)  
+- **modules/**: Python module files (`.py`)  
+- **report/**: Report files (`.pdf`, `.tex`)  
+- **features/**: Extracted features (`.npy`, `.h5`)  
 
 ---
 
-## 📂 Repository Structure
+## 4. Reports and Colab notebooks
 
-- **notebooks/**: Jupyter notebooks for assignments and experiments.  
-- **report/**: Final report and documents.  
-- **features/**: Saved features, datasets, or preprocessing results.  
-- **modules/**: Python utility modules.  
+- **Report:** To do  
+- **Notebooks:**
 
----
-
-## 🔗 Quick Links
-
-- [Assignment 1 Notebook](notebooks/assignment1.ipynb)  
-- [Assignment 2 Notebook](notebooks/assignment2.ipynb)  
-- [Final Report (PDF)](report/report.pdf)
-
----
-
-## 🚀 How to Use
-
-Clone this repository:
-```bash
-git clone https://github.com/your-username/SEML31-demo.git
+| Assignment | Content          | Dataset            | Notebook source                   | Open in Google Colab |
+|------------|-----------------|--------------------|-----------------------------------|----------------------|
+| 1          | Tabular data    | Caniewellness      | `/notebooks/assignment-1.ipynb`   | [![Open In Colab](https://colab.research.google.com/drive/1jecxJLn9OH1pfs7JyvO64GJliFXfZw7c?usp=sharing#scrollTo=9LoZun6fAuna) |
+| 2          | Text data       | (To Be Determined)              |                                   |                      |
+| 3          | Image data      | (To Be Determined)              |                                   |                      |
+| Extension  |                 | (To Be Determined)         |                                   |                      |

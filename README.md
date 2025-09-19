@@ -64,7 +64,7 @@ Open the notebooks via Google Colab, then click **Run All**.
 
 | Assignment | Content          | Dataset            | Notebook source                   | Open in Google Colab |
 |------------|-----------------|--------------------|-----------------------------------|----------------------|
-| 1          | Tabular data    | Caniewellness      | `/notebooks/assignment-1.ipynb`   | [![Open In Colab](https://colab.research.google.com/drive/1jecxJLn9OH1pfs7JyvO64GJliFXfZw7c?usp=sharing#scrollTo=9LoZun6fAuna) |
+| 1          | Tabular data    | Caniewellness      | `/notebooks/assignment-1.ipynb`   | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1jecxJLn9OH1pfs7JyvO64GJliFXfZw7c?usp=sharing#scrollTo=9LoZun6fAuna) |
 | 2          | Text data       | (To Be Determined)              |                                   |                      |
 | 3          | Image data      | (To Be Determined)              |                                   |                      |
 | Extension  |                 | (To Be Determined)         |                                   |                      |

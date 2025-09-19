@@ -64,7 +64,31 @@ _Vietnam National University-Ho Chi Minh City (VNU-HCMC)_
  ┗ README.md
 ```
 
----
+## Usage
+Để sử dụng repository và chạy các notebook:
+
+```bash
+# 1. Clone repository về máy
+git clone https://github.com/PhucBuif2175/CSML25_Machine_Learning.git
+cd CSML25_Machine_Learning
+
+# 2. (Tuỳ chọn) Tạo môi trường ảo để quản lý thư viện
+python -m venv venv
+# Linux / Mac
+source venv/bin/activate
+# Windows
+venv\Scripts\activate
+
+# 3. Cập nhật pip (nếu cần)
+python -m pip install --upgrade pip
+
+# 4. Cài đặt các dependencies cần thiết
+pip install -r requirements.txt
+
+# 5. Launch notebook
+jupyter notebook
+
+```
 
 ## 4️. Github & Colab Notebooks   
 

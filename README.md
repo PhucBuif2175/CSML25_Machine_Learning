@@ -56,10 +56,12 @@ _Vietnam National University-Ho Chi Minh City (VNU-HCMC)_
 
 ```
 📦 csml25/
- ┣ 📂 notebooks/   → Jupyter/Colab notebooks (.ipynb)
+ ┣ 📂 data/        → .csv
+ ┣ 📂 features/    → Extracted features (.npy, .h5)
  ┣ 📂 modules/     → Python modules (.py)
+ ┣ 📂 notebooks/   → Jupyter/Colab notebooks (.ipynb)
  ┣ 📂 report/      → Reports (.pdf, .tex)
- ┗ 📂 features/    → Extracted features (.npy, .h5)
+ ┗ README.md
 ```
 
 ---

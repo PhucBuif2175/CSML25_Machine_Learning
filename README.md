@@ -101,6 +101,6 @@ jupyter notebook
 | #   | Content       | Dataset             | Notebook Source                 | Open in Colab |
 |-----|--------------|---------------------|---------------------------------|---------------|
 | 1   | Tabular data | Canine Wellness     | `/notebooks/assignment_2.ipynb` | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1jecxJLn9OH1pfs7JyvO64GJliFXfZw7c?usp=sharing#scrollTo=9LoZun6fAuna) |
-| 2   | Text data    | Emotions            | `/notebooks/assignment_2.ipynb  | [![Open In Colab](https://colab.research.google.com/drive/168IquT6QWC4YYoHPSn597GgbpSyhwKOH?usp=sharing#scrollTo=NhrZJ2gUBl6d) |
+| 2   | Text data    | Emotions            | `/notebooks/assignment_2.ipynb`  | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/168IquT6QWC4YYoHPSn597GgbpSyhwKOH?usp=sharing#scrollTo=NhrZJ2gUBl6d) |
 | 3   | Image data   | TBD                 |                                 |               |
 | Ext | Extension    | TBD                 |                                 |               |

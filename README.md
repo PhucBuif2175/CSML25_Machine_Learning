@@ -46,7 +46,7 @@ _Vietnam National University-Ho Chi Minh City (VNU-HCMC)_
 
 **📂 Datasets**
 - 🐶 **Tabular:** [Canine Wellness Dataset](https://www.kaggle.com/datasets/aaronisomaisom3/canine-wellness-dataset-synthetic-10k-samples)  
-- 📝 **Text:** _(To be determined)_  
+- 📝 **Text:** [Emotions Dataset](https://www.kaggle.com/datasets/praveengovi/emotions-dataset-for-nlp/data) 
 - 🖼️ **Image:** _(To be determined)_  
 - 🔬 **Extension:** _(To be determined)_  
 
@@ -59,7 +59,48 @@ _Vietnam National University-Ho Chi Minh City (VNU-HCMC)_
  ┣ 📂 data/        → .csv
  ┣ 📂 features/    → Extracted features (.npy, .h5)
  ┣ 📂 modules/     → Python modules (.py)
- ┣ 📂 notebooks/   → Jupyter/Colab notebooks (.ipyn1.ipynb` | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1jecxJLn9OH1pfs7JyvO64GJliFXfZw7c?usp=sharing#scrollTo=9LoZun6fAuna) |
+ ┣ 📂 notebooks/   → Jupyter/Colab notebooks (.ipynb)
+ ┣ 📂 report/      → Reports (.pdf, .tex)
+ ┗ README.md
+```
+
+## Usage
+Để sử dụng repository và chạy các notebook:
+
+```bash
+# 1. Clone repository về máy
+git clone https://github.com/PhucBuif2175/CSML25_Machine_Learning.git
+cd CSML25_Machine_Learning
+
+# 2. (Tuỳ chọn) Tạo môi trường ảo để quản lý thư viện
+python -m venv venv
+# Linux / Mac
+source venv/bin/activate
+# Windows
+venv\Scripts\activate
+
+# 3. Cập nhật pip (nếu cần)
+python -m pip install --upgrade pip
+
+# 4. Cài đặt các dependencies cần thiết
+pip install -r requirements.txt
+
+# 5. Launch notebook
+jupyter notebook
+
+```
+
+## 4️. Github & Colab Notebooks   
+
+🌐 **Project Page:** [https://phucbuif2175.github.io/CSML25_Machine_Learning/](https://phucbuif2175.github.io/CSML25_Machine_Learning/)  
+🐙 **GitHub Repository:** [https://github.com/PhucBuif2175/CSML25_Machine_Learning/](https://github.com/PhucBuif2175/CSML25_Machine_Learning/)
+
+
+📓 **Assignments:**
+
+| #   | Content       | Dataset             | Notebook Source                 | Open in Colab |
+|-----|--------------|---------------------|---------------------------------|---------------|
+| 1   | Tabular data | Canine Wellness     | `/notebooks/assignment_1.ipynb` | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1jecxJLn9OH1pfs7JyvO64GJliFXfZw7c?usp=sharing#scrollTo=9LoZun6fAuna) |
 | 2   | Text data    | Emotions            | `/notebooks/assignment_2.ipynb`  | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/168IquT6QWC4YYoHPSn597GgbpSyhwKOH?usp=sharing#scrollTo=NhrZJ2gUBl6d) |
 | 3   | Image data   | TBD                 |                                 |               |
 | Ext | Extension    | TBD                 |                                 |               |

@@ -47,8 +47,8 @@ _Vietnam National University-Ho Chi Minh City (VNU-HCMC)_
 **📂 Datasets**
 - 🐶 **Tabular:** [Canine Wellness Dataset](https://www.kaggle.com/datasets/aaronisomaisom3/canine-wellness-dataset-synthetic-10k-samples)  
 - 📝 **Text:** [Emotions Dataset](https://www.kaggle.com/datasets/praveengovi/emotions-dataset-for-nlp/data) 
-- 🖼️ **Image:** _(To be determined)_  
-- 🔬 **Extension:** _(To be determined)_  
+- 🖼️ **Image:** [Emotions Dataset](https://www.kaggle.com/datasets/trolukovich/food11-image-dataset) 
+- 🔬 **Extension:** 
 
 ---
 
@@ -102,5 +102,5 @@ jupyter notebook
 |-----|--------------|---------------------|---------------------------------|---------------|
 | 1   | Tabular data | Canine Wellness     | `/notebooks/Assignment_1_CSML25.ipynb` | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1jecxJLn9OH1pfs7JyvO64GJliFXfZw7c?usp=sharing#scrollTo=9LoZun6fAuna) |
 | 2   | Text data    | Emotions            | `/notebooks/Assignment_2_CSML25.ipynb`  | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/168IquT6QWC4YYoHPSn597GgbpSyhwKOH?usp=sharing#scrollTo=NhrZJ2gUBl6d) |
-| 3   | Image data   | TBD                 | `/notebooks/Assignment_3_CSML25.ipynb` | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1yj7qicC6xzzX2WctYotq7YQ4r5Yzexd1?authuser=0#scrollTo=o996c89vz5fK) |
-| Ext | Extension    | TBD                 |                                 |               |
+| 3   | Image data   | Food Images                 | `/notebooks/Assignment_3_CSML25.ipynb` | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1yj7qicC6xzzX2WctYotq7YQ4r5Yzexd1?authuser=0#scrollTo=o996c89vz5fK) |
+| Ext | Extension    | Testcase                | `/notebooks/CSML25_EXTRA.ipynb` | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1MPtpzlu8SxyOLTLKdp_kvE7dip2EuaVC?usp=sharing)             |

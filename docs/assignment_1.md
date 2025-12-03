@@ -32,10 +32,10 @@
 ### 3. Giá trị thiếu (Missing Values)
 * Tỉ lệ Missing: Dao động từ **2.49%** đến **3.45%** trên hầu hết các cột.
 
-![1_bar_chart_categorical_1](docs/images/1_bar_chart_categorical_1.png)
-![1_bar_chart_categorical_2](docs/images/1_bar_chart_categorical_2.png)
-![1_bar_chart_categorical_3](docs/images/1_bar_chart_categorical_3.png)
-![1_bar_chart_categorical_4](docs/images/1_bar_chart_categorical_4.png)
+![1_bar_chart_categorical_1](images/1_bar_chart_categorical_1.png)
+![1_bar_chart_categorical_2](images/1_bar_chart_categorical_2.png)
+![1_bar_chart_categorical_3](images/1_bar_chart_categorical_3.png)
+![1_bar_chart_categorical_4](images/1_bar_chart_categorical_4.png)
 
 ---
 

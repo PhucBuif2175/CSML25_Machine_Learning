@@ -41,7 +41,7 @@ Trang này tóm tắt quá trình làm việc và kết quả chính từ notebo
 | love     | 1 304  |
 | surprise |   572  |
 
-![Biểu đồ phân phối](docs/images/btl2_1.png)
+![Biểu đồ phân phối](images/btl2_1.png)
 Nhận xét:
 
 - Dữ liệu **mất cân bằng**: `joy` và `sadness` chiếm phần lớn.
@@ -63,7 +63,7 @@ Notebook thêm cột `word_count` cho tập train và thống kê:
 | Min / Max    | 2 / 66  |
 | Q1 / Q2 / Q3 | 11 / 17 / 25 |
 
-![Biểu đồ phân phối](docs/images/btl2_2.png)
+![Biểu đồ phân phối](images/btl2_2.png)
 Độ dài trung bình theo từng cảm xúc:
 
 - `love`: 20.70 từ  
@@ -74,7 +74,7 @@ Notebook thêm cột `word_count` cho tập train và thống kê:
 - `sadness`: 18.36 từ  
 
 
-![Biểu đồ phân phối](docs/images/btl2_3.png)
+![Biểu đồ phân phối](images/btl2_3.png)
 Nhận xét:
 
 - Câu trong dataset nhìn chung **khá ngắn**, chủ yếu 10–25 từ.  
@@ -124,7 +124,7 @@ Nhận xét:
 ---
 
 ## 4. Kết quả thực nghiệm (Experimental Results)
-![Biểu đồ phân phối](docs/images/btl2_4.png)
+![Biểu đồ phân phối](images/btl2_4.png)
 
 
 ### 4.1. Top 5 Cấu hình tốt nhất (Best Performing Models)

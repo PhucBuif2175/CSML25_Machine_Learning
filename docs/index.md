@@ -98,9 +98,9 @@ jupyter notebook
 
 **Landing pages for the assignments:**
 
-1. [**Assignment 1 page**](https://phucbuif2175.github.io/CSML25_Machine_Learning)
-2. [**Assignment 2 page**](https://phucbuif2175.github.io/CSML25_Machine_Learning/assignment_2)
-3. [**Assignment 3 page**](https://phucbuif2175.github.io/CSML25_Machine_Learning/)
+1. [**Assignment 1 page**](https://phucbuif2175.github.io/CSML25_Machine_Learning/assignment_1)
+2. [**Assignment 2 page**](https://phucbuif2175.github.io/CSML25_Machine_Learning/assingment_2)
+3. [**Assignment 3 page**](https://phucbuif2175.github.io/CSML25_Machine_Learning/assignment_3)
 4. [**Assignment extension page**](https://phucbuif2175.github.io/CSML25_Machine_Learning/)
 
 📓 **Assignments:**

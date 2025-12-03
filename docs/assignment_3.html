@@ -1,0 +1,675 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Báo Cáo Môn Học Machine Learning</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        
+    <header class="report-header">
+        <p style="font-size: 1.1em; margin-bottom: 5px;">Bài tập lớn 3: Machine Learning với dữ liệu ảnh (Food-11 Dataset)</p>
+        <h1>Machine Learning với Dữ Liệu Ảnh (Food-11 Dataset)</h1>
+        
+        <div class="course-details" style="text-align: left; max-width: 600px; margin: 20px auto 0 auto; line-height: 1.8;">
+            <p><strong>Tên học phần:</strong> Machine Learning</p>
+            <p><strong>Mã học phần:</strong> CO3117</p>
+            <p><strong>Học kỳ:</strong> 251</p>
+            <p><strong>Năm học:</strong> 2025</p>
+            <p><strong>Giảng viên hướng dẫn:</strong> TS. Lê Thành Sách</p>
+            <p><strong>Nhóm thực hiện:</strong> CSML25</p>
+            <p><strong>Dataset:</strong> Food-11 Image Dataset </p>
+            <p><strong>Mô tả:</strong> Food-11 là tập dữ liệu khoảng 16.000–20.000 ảnh (bao gồm train, validation và evaluation) gồm ảnh của 11 loại món ăn khác nhau (ví dụ: cơm chiên, mì Ý, salad, bánh mì, thịt, tráng miệng, v.v.). Các ảnh là ảnh thật, được chụp trong điều kiện đa dạng về ánh sáng, góc chụp và bối cảnh — điều này khiến bài toán nhận dạng trở nên thách thức hơn. </p>
+        </div>
+    </header>
+
+    <section id="group-info" class="group-info-section">
+        <h2>Thành Viên Nhóm</h2>
+        <table class="report-table student-table">
+            <thead>
+                <tr><th>Sinh viên</th><th>ID</th><th>Email</th><th>Đóng góp</th></tr>
+            </thead>
+            <tbody>
+                <tr><td>Nguyen Dang Khanh</td><td>2311512</td><td>khanh.nguyennttt040905@hcmut.edu.vn</td><td>100%</td></tr>
+                <tr><td>Bui Ngoc Phuc</td><td>2312665</td><td>phuc.buif2175@hcmut.edu.vn</td><td>100%</td></tr>
+                <tr><td>Dinh Hoang Chung</td><td>2310359</td><td>chung.dinhhoang@hcmut.edu.vn</td><td>100%</td></tr>
+            </tbody>
+        </table>
+    </section>
+        
+        <section id="eda" class="report-section">
+            <h2>1. Khám Phá và Phân Tích Dữ Liệu (EDA)</h2>
+            
+            <p><strong>1.1 Một vài ảnh đặc trưng của từng class</strong></p>
+            <div class="visual-placeholder1">
+                <img src="eda1.png" alt="eda1" class="report-image">
+            </div>
+            <div class="visual-placeholder2">
+                <img src="eda2.png" alt="eda2" class="report-image">
+            </div>
+            <div class="visual-placeholder3">
+                <img src="preview.png" alt="Một vài ảnh đặc trưng của từng class" class="report-image">
+            </div>
+
+
+            
+            <p><strong>1.2 Phân phối số lượng ảnh theo lớp.</strong></p>
+            <div class="visual-placeholder">
+                <img src="pngperclass.png" alt="Phân phối số lượng ảnh theo lớp" class="report-image">
+            </div>
+
+            <div class="data-analysis-block">
+                <h3>Nhận Xét Về Phân Phối Dữ Liệu</h3>
+                <p>Số lượng ảnh giữa các lớp không đồng đều, xuất hiện hiện tượng <strong>class imbalance (mất cân bằng nhãn)</strong>.</p>
+                <ul>
+                    <li>Một số lớp như “Dessert” và “Soup” có khoảng 1450 ảnh, cao gần gấp 4–5 lần so với các lớp ít ảnh như “Rice” (280 ảnh) hoặc “Dairy product” (429 ảnh).</li>
+                    <li>Các lớp còn lại phân bố tương đối rải rác trong khoảng 700–1000 ảnh.</li>
+                </ul>
+                <p style="font-weight: bold; color: #ff5722;">👉 Điều này có nghĩa là mô hình học sâu khi huấn luyện sẽ dễ thiên lệch (bias) về các lớp có nhiều mẫu hơn.</p>
+
+                <h4>Hệ Quả của Mất Cân Bằng Nhãn:</h4>
+                <ul>
+                    <li>Độ chính xác tổng thể (*accuracy*) có thể cao, nhưng độ chính xác theo từng lớp (*per-class accuracy*) sẽ thấp, dẫn đến các lớp ít dữ liệu dễ bị dự đoán sai.</li>
+                    <li>Mô hình dễ “quen thuộc” với các lớp lớn và bỏ qua lớp nhỏ.</li>
+                    <li>Nếu dùng CrossEntropy Loss thông thường, các lớp thiểu số gần như không đóng góp nhiều vào gradient.</li>
+                </ul>
+                
+                <h4>Các Giải Pháp Đề Xuất:</h4>
+                <ul>
+                    <li><strong>Data Augmentation có chọn lọc</strong> cho các lớp ít ảnh (Rice, Dairy product, Noodles-Pasta) bằng: Lật ảnh (flip), Xoay (rotation), Dịch chuyển (shift), Zoom / brightness adjustment.</li>
+                    <li><strong>Gán trọng số lớn hơn</strong> cho lớp ít ảnh, giúp loss cân bằng hơn.</li>
+                    <li>Dùng oversampling cho lớp ít ảnh hoặc undersampling cho lớp nhiều ảnh.</li>
+                </ul>
+            </div>
+        <p><strong>1.3 Phân phối ảnh theo chiều rộng, chiều cao và tỉ lệ khung hình.</strong></p>
+
+        <div class="visual-placeholder">
+            <p>Biểu đồ phân phối theo Chiều Rộng, Cao, Tỉ lệ khung hình (sử dụng ảnh histogram của bạn).</p>
+            <img src="phanphoianh.png" alt="Biểu đồ phân phối theo chiều rộng ảnh" class="report-image">
+        </div>
+
+
+        <div class="data-analysis-block">
+            <h3>Nhận Xét Về Phân Phối Kích Thước Ảnh</h3>
+            
+            <h4>Từ hai biểu đồ đầu tiên (chiều rộng và chiều cao):</h4>
+            <ul>
+                <li>Đa số ảnh có chiều rộng **512 px** và chiều cao **512 px**, thể hiện rõ qua cột nổi bật trong histogram.</li>
+                <li>Một số lượng nhỏ ảnh có kích thước khác như 512×384, 384×512, 1024×768,… → tức là vẫn còn sự không đồng nhất giữa các ảnh.</li>
+            </ul>
+            <p style="font-weight: bold; color: #ff5722;">👉 Điều này cho thấy phần lớn ảnh là vuông (512×512), nhưng vẫn tồn tại nhiều ảnh chữ nhật (tỉ lệ 4:3, 3:2, ...).</p>
+
+            <h4>Biểu đồ tỷ lệ khung hình (width/height):</h4>
+            <ul>
+                <li>Đỉnh chính nằm tại tỉ lệ ≈ 1.0 → phần lớn ảnh có dạng **vuông (square)**.</li>
+                <li>Một vài cụm nhỏ quanh 1.3–1.4 (tức 4:3) và 0.7–0.8 (tức 3:4) → cho thấy có ảnh dọc và ngang tồn tại trong dataset.</li>
+            </ul>
+            <p style="font-weight: bold; color: #ff5722;">👉 Dataset tương đối đồng nhất về tỉ lệ, nhưng **chưa hoàn toàn nhất quán**. Một số ảnh lệch tỉ lệ có thể ảnh hưởng đến việc resize nếu không xử lý đúng (có thể bị méo hình).</p>
+        </div>
+
+        <p><strong>1.4 Top 10 kích thước ảnh phổ biến nhất.</strong></p>
+
+        <div class="visual-placeholder">
+            <p>Biểu đồ thể hiện Top 10 kích thước phổ biến nhất trong tập dữ liệu Food-11. (Hãy thay thế ảnh `top10_sizes_chart.png` bằng ảnh của bạn).</p>
+            <img src="top10size.png" alt="Biểu đồ Top 10 kích thước ảnh phổ biến" class="report-image">
+        </div>
+
+        <div class="data-analysis-block">
+            <h3>Nhận Xét Về Top Kích Thước Ảnh</h3>
+            
+            <ul>
+                <li>Dataset được xây dựng từ nhiều nguồn ảnh khác nhau, nhưng đa số đã được **chuẩn hóa về kích thước 512×512**.</li>
+                <li>Tuy nhiên, vẫn tồn tại một số ảnh khác kích thước → cần xử lý trước khi huấn luyện để đảm bảo đồng nhất.</li>
+            </ul>
+            <p style="font-weight: bold; color: #ff5722;">👉 **Kết luận:** Cần có bước tiền xử lý để resize hoặc crop tất cả ảnh về một kích thước đồng nhất (ví dụ: 224x224 hoặc 512x512) trước khi đưa vào huấn luyện mô hình học sâu để đảm bảo đồng nhất đầu vào.</p>
+        </div>
+
+        <p><strong>1.5 Phân phối chế độ màu (Color Mode).</strong></p>
+
+        <div class="visual-placeholder">
+            <p>Biểu đồ thể hiện phân phối chế độ màu của toàn bộ tập dữ liệu (có thể là biểu đồ tròn hoặc cột).</p>
+            <img src="colour.png" alt="Biểu đồ phân phối chế độ màu" class="report-image">
+        </div>
+
+        <div class="data-analysis-block">
+            <h3>Nhận Xét Về Chế Độ Màu (Color Mode)</h3>
+            
+            <ul>
+                <li>Biểu đồ cho thấy **100% ảnh** thuộc mode **“RGB”**, không có ảnh nào ở dạng L (grayscale) hay RGBA (có alpha channel).</li>
+            </ul>
+            <p style="font-weight: bold; color: #1e3a8a;">👉 Điều này chứng tỏ dataset rất **sạch và đồng nhất về màu sắc**, không cần bước chuyển đổi chế độ màu trước khi đưa vào pipeline huấn luyện.</p>
+            <p>Với dạng RGB, mô hình có thể khai thác đầy đủ thông tin màu -> điều quan trọng trong bài toán nhận diện món ăn, nơi đặc trưng màu sắc (vàng, đỏ, xanh, nâu…) là tín hiệu phân biệt mạnh.</p>
+        </div>
+
+            </section>
+
+        <section id="traditional" class="report-section">
+            <h2>2. Pipeline Học Máy Truyền Thống (Feature-based)</h2>
+            
+            <p>Trong bài tập này, sinh viên cần thực hiện EDA cơ bản cho dữ liệu ảnh (kích thước ảnh, số kênh màu, phân phối nhãn, số lượng mẫu cho mỗi lớp), sau đó tiến hành xây dựng pipeline theo các bước:</p>
+            
+            <ul>
+                <li><strong>Trích xuất đặc trưng hiện đại (deep learning features):</strong> sử dụng các mô hình học sâu đã được huấn luyện trước (pretrained models) để rút trích đặc trưng ảnh.
+                    <ul>
+                        <li>CNN: VGG16, ResNet, EfficientNet.</li>
+                        <li>Transformer-based: Vision Transformer (ViT), Swin Transformer.</li>
+                    </ul>
+                </li>
+                <li>Các đặc trưng này cần được lưu lại thành file <code>.npy</code> hoặc <code>.h5</code> để sử dụng trong các bước huấn luyện mô hình phân loại phía sau.</li>
+                <li>Pipeline phải cho phép linh hoạt trong việc cấu hình các bước (ví dụ: resize ảnh về kích thước nào, chọn mô hình pretrained nào để trích xuất đặc trưng, lựa chọn mô hình phân loại Logistic Regression, SVM hoặc Random Forest).</li>
+            </ul>
+
+            <h3 style="color: #1e3a8a; font-size: 1.5em; margin-top: 30px;">2.1. Kết Quả Đặc Trưng Rút Trích từ ViT và Swin Transformer</h3>
+            <p>Áp dụng các bộ phân loại cổ điển trên đặc trưng rút trích được từ các backbone mạnh mẽ (Swin và ViT) để đánh giá khả năng phân tách dữ liệu của chúng.</p>
+            
+            <div class="visual-placeholder">
+                <p>Bảng so sánh hiệu năng giữa các tổ hợp Backbone (Swin/ViT) và Bộ phân loại (LR/SVM/RF).</p>
+                <table class="report-table">
+                    <thead>
+                        <tr><th>Backbone</th><th>Classifier</th><th>Val_Acc</th><th>Test_Acc</th><th>Val_F1</th><th>Test_F1</th><th>Train_Time (s)</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>swin</td><td>LogReg</td><td>0.974052</td><td>0.978787</td><td>0.974348</td><td>0.979152</td><td>2.505264</td></tr>
+                        <tr><td>swin</td><td>SVM</td><td>0.972303</td><td>0.976397</td><td>0.972943</td><td>0.976563</td><td>75.731172</td></tr>
+                        <tr><td>swin</td><td>RF</td><td>0.951020</td><td>0.962354</td><td>0.949874</td><td>0.961367</td><td>46.137442</td></tr>
+                        <tr><td>vit</td><td>LogReg</td><td>0.967055</td><td>0.972513</td><td>0.968515</td><td>0.974323</td><td>2.375472</td></tr>
+                        <tr><td>vit</td><td>SVM</td><td>0.955977</td><td>0.967732</td><td>0.955564</td><td>0.969092</td><td>21.357576</td></tr>
+                        <tr><td>vit</td><td>RF</td><td>0.947522</td><td>0.965342</td><td>0.946119</td><td>0.966289</td><td>38.918111</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <div class="data-analysis-block">
+                <h3>Nhận Xét Chi Tiết Kết Quả</h3>
+                
+                <h4>Tổng quan:</h4>
+                <ul>
+                    <li>Cả <strong>ViT</strong> và <strong>Swin Transformer</strong> đều cho độ chính xác rất cao (&gt;96%), chứng tỏ feature trích xuất từ mô hình Transformer pretrained có khả năng tổng quát hóa mạnh trên Food-11.</li>
+                    <li>Sự chênh lệch giữa tập validation và test nhỏ (&lt;1%) → mô hình ổn định, không overfit.</li>
+                    <li>Với bộ phân loại tuyến tính như <strong>Logistic Regression</strong>, cả hai backbone đều đạt hiệu năng cao nhất, nghĩa là feature embedding đã phân tách rõ giữa các lớp món ăn.</li>
+                </ul>
+                
+                <h4>So sánh Swin và ViT:</h4>
+                <p>Với Food-11 (dữ liệu 11 lớp, ảnh thực tế có ánh sáng và bố cục khác nhau): <strong>Swin</strong> xử lý đa dạng không gian tốt hơn, thích hợp hơn khi món ăn có nhiều góc chụp / bố cục phức tạp. <strong>ViT</strong> vẫn cho hiệu năng cao và ổn định, phù hợp khi muốn inference nhanh hoặc tích hợp trong pipeline có resource giới hạn.</p>
+            </div>
+
+
+        <h3 style="color: #1e3a8a; font-size: 1.5em; margin-top: 30px;">2.2. Kết Quả Đặc Trưng Rút Trích từ EfficientNetB0</h3>
+            <p>So sánh hiệu năng của các bộ phân loại cổ điển khi sử dụng đặc trưng rút trích từ kiến trúc CNN hiện đại, EfficientNetB0.</p>
+            
+            <div class="visual-placeholder">
+                <p>Bảng so sánh hiệu năng giữa các tổ hợp Backbone (EfficientNetB0) và Bộ phân loại (LR/SVM/RF).</p>
+                <table class="report-table">
+                    <thead>
+                        <tr><th>Backbone</th><th>Classifier</th><th>Val_Acc</th><th>Test_Acc</th><th>Val_F1</th><th>Test_F1</th><th>Train_Time (s)</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>efficientnetb0</td><td>LogReg</td><td>0.886297</td><td>0.905886</td><td>0.891606</td><td>0.908402</td><td>6.559273</td></tr>
+                        <tr><td>efficientnetb0</td><td>SVM</td><td>0.851020</td><td>0.864655</td><td>0.854654</td><td>0.861872</td><td>140.547287</td></tr>
+                        <tr><td>efficientnetb0</td><td>RF</td><td>0.828571</td><td>0.855393</td><td>0.817569</td><td>0.848199</td><td>48.556631</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <div class="data-analysis-block">
+                <h3>Nhận Xét Chi Tiết Kết Quả (EfficientNetB0)</h3>
+                
+                <h4>Tổng quan:</h4>
+                <ul>
+                    <li>Mô hình <strong>EfficientNetB0</strong> cho độ chính xác Test Accuracy ~90.6% với Logistic Regression, cao hơn rõ so với SVM và RF.</li>
+                    <li>Các chỉ số <strong>F1-score (~0.91)</strong> nhất quán với Accuracy → mô hình phân loại khá cân bằng giữa các lớp món ăn.</li>
+                    <li>Thời gian huấn luyện (6.5 giây cho LogReg) hợp lý, chứng tỏ pipeline trích xuất feature + classifier chạy hiệu quả, nhẹ hơn nhiều so với các backbone lớn như ViT/Swin.</li>
+                </ul>
+                
+                <h4>So sánh với Transformer backbone (Mục 2.1):</h4>
+                <p>CNN vẫn ổn cho bài toán nhận dạng cấp thấp (texture, màu). Nhưng nếu cần độ chính xác cao hơn và khả năng khái quát hóa, <strong>Transformer (Swin, ViT)</strong> rõ ràng vượt trội (~+7% acc) so với EfficientNetB0.</p>
+            </div>
+
+
+        <h3 style="color: #1e3a8a; font-size: 1.5em; margin-top: 30px;">2.3. Kết Quả Đặc Trưng Rút Trích từ VGG16</h3>
+            <p>Đánh giá hiệu năng của các bộ phân loại cổ điển khi sử dụng đặc trưng rút trích từ kiến trúc CNN cổ điển VGG16, một mô hình đơn giản hơn so với ResNet và EfficientNet.</p>
+            
+            <div class="visual-placeholder">
+                <p>Bảng so sánh hiệu năng giữa các tổ hợp Backbone (VGG16) và Bộ phân loại (LR/SVM/RF).</p>
+                <table class="report-table">
+                    <thead>
+                        <tr><th>Backbone</th><th>Classifier</th><th>Val_Acc</th><th>Test_Acc</th><th>Val_F1</th><th>Test_F1</th><th>Train_Time (s)</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>vgg16</td><td>SVM</td><td>0.802332</td><td>0.828204</td><td>0.808089</td><td>0.831796</td><td>9.683936</td></tr>
+                        <tr><td>vgg16</td><td>LogReg</td><td>0.769096</td><td>0.803406</td><td>0.782882</td><td>0.809085</td><td>9.652196</td></tr>
+                        <tr><td>vgg16</td><td>RF</td><td>0.761808</td><td>0.785181</td><td>0.756314</td><td>0.774574</td><td>27.744074</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <div class="data-analysis-block">
+                <h3>Nhận Xét Chi Tiết Kết Quả (VGG16)</h3>
+                
+                <h4>Tổng quan:</h4>
+                <ul>
+                    <li><strong>VGG16</strong> đạt Test Accuracy ≈ 80.3% với Logistic Regression và ≈82.8% với SVM — **thấp nhất trong ba backbone CNN** (so với EfficientNetB0 ~90% và ResNet50 ~87%).</li>
+                    <li>F1-score tương ứng (~0.81–0.83) xác nhận rằng mô hình phân loại khá cân bằng, nhưng khả năng tổng quát hóa yếu hơn các backbone hiện đại.</li>
+                    <li>Thời gian huấn luyện (≈9–10 giây) khá ổn, nhưng hiệu năng không cao.</li>
+                </ul>
+                
+                <h4>Kết luận:</h4>
+                <p style="font-weight: bold; color: #ff5722;">VGG16 không còn phù hợp làm backbone chính</p> trong bài toán phân loại hình ảnh phức tạp như Food-11, do các đặc trưng rút trích kém hiệu quả hơn so với kiến trúc có cơ chế skip connection (ResNet) hoặc tối ưu hóa độ sâu/chiều rộng/độ phân giải (EfficientNet).
+            </div>            
+        </section>
+
+
+        <h3 style="color: #1e3a8a; font-size: 1.5em; margin-top: 30px;">2.4. Kết Quả Đặc Trưng Rút Trích từ ResNet50</h3>
+            <p>Đánh giá hiệu năng của các bộ phân loại cổ điển khi sử dụng đặc trưng rút trích từ kiến trúc CNN cổ điển nhưng mạnh mẽ, ResNet50.</p>
+            
+            <div class="visual-placeholder">
+                <p>Bảng so sánh hiệu năng giữa các tổ hợp Backbone (ResNet50) và Bộ phân loại (LR/SVM/RF).</p>
+                <table class="report-table">
+                    <thead>
+                        <tr><th>Backbone</th><th>Classifier</th><th>Val_Acc</th><th>Test_Acc</th><th>Val_F1</th><th>Test_F1</th><th>Train_Time (s)</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>resnet50</td><td>LogReg</td><td>0.855394</td><td>0.871228</td><td>0.861130</td><td>0.876076</td><td>5.618274</td></tr>
+                        <tr><td>resnet50</td><td>SVM</td><td>0.821283</td><td>0.841350</td><td>0.824937</td><td>0.845422</td><td>605.656146</td></tr>
+                        <tr><td>resnet50</td><td>RF</td><td>0.789213</td><td>0.821930</td><td>0.778472</td><td>0.818493</td><td>58.729441</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <div class="data-analysis-block">
+                <h3>Nhận Xét Chi Tiết Kết Quả (ResNet50)</h3>
+                
+                <h4>Tổng quan:</h4>
+                <ul>
+                    <li><strong>ResNet50</strong> đạt Test Accuracy ≈ 87.1% và F1 ≈ 0.876 với Logistic Regression, tức là thấp hơn EfficientNetB0 khoảng 3–4%, và thấp hơn ViT/Swin khoảng 10%.</li>
+                    <li>Với các bộ phân loại phức tạp hơn như SVM và Random Forest, kết quả không tăng mà còn giảm — xác nhận rằng feature từ ResNet50 ở mức tuyến tính đã tốt nhất khi dùng LR.</li>
+                    <li>Thời gian huấn luyện LR khá nhanh (5.6s), nhưng SVM cực kỳ tốn thời gian (~10 phút).</li>
+                </ul>
+                
+                <h4>Khả năng phân biệt đặc trưng:</h4>
+                <p>ResNet50 học đặc trưng phân cấp dựa trên convolution, mạnh ở việc nhận dạng texture, viền, màu sắc. Tuy nhiên, Food-11 có nhiều món tương tự nhau (ví dụ “pasta”, “fried rice”, “noodles”) — ResNet khó phân biệt khi cần quan hệ toàn cục. Vì thế, feature ResNet kém hiệu quả hơn so với EfficientNet hoặc Transformer khi phân loại món ăn phức tạp.</p>
+            </div>        
+        <section id="modern" class="report-section last-section">
+            <h2>3. Pipeline Học Sâu (Deep Learning End-to-End)</h2>
+            
+            <p>Áp dụng Fine-tuning cho các kiến trúc học sâu (CNN và Transformer) để tối ưu hóa hiệu suất phân loại trực tiếp trên dữ liệu Food-11, sử dụng các kỹ thuật tiền xử lý ảnh và Augmentation hiệu quả.</p>
+            
+            <h3>Chiến Lược Thử Nghiệm</h3>
+            <p>Chiến lược so sánh được chia thành 3 lớp chính:</p>
+            <ul>
+                <li>So sánh giữa các cách dùng cùng 1 backbone (ví dụ: freeze vs. unfreeze).</li>
+                <li>So sánh giữa các backbone khác nhau (ví dụ: ResNet50 vs. EfficientNetB0).</li>
+                <li>Thử nghiệm siêu tham số quan trọng (learning rate, batch size, augmentation).</li>
+            </ul>
+
+            <h3 style="color: #1e3a8a; font-size: 1.5em; margin-top: 30px;">3.1. Test 1: Baseline ResNet50 (Backbone Frozen)</h3>
+            
+            <p>Trong mô hình D1, nhóm giữ nguyên backbone ResNet50 pretrained và chỉ huấn luyện phần head mới gồm GlobalAveragePooling2D, Dense(256, ReLU), Dropout(0.3) và Dense(softmax).</p>
+            <p>Head này được thiết kế nhằm tận dụng đặc trưng đã học sẵn từ ResNet50, đồng thời cung cấp khả năng học phân loại phù hợp với 11 lớp của Food11 mà không làm tăng quá nhiều tham số. Cấu trúc gọn nhẹ giúp mô hình hội tụ nhanh, ổn định, và là baseline hiệu quả để so sánh với giai đoạn fine-tune (Test 2).</p>
+            
+            <div class="visual-placeholder">
+                <p>Bảng mô tả cấu hình và mục tiêu của Test 1.</p>
+                <table class="report-table">
+                    <thead>
+                        <tr><th>Nội dung thử nghiệm</th><th>Mục tiêu cụ thể</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>Backbone ResNet50 (pretrained, frozen)</td><td>Kiểm tra khả năng trích xuất đặc trưng của mô hình CNN đã được huấn luyện sẵn trên ImageNet, khi chỉ huấn luyện phần phân loại (head).</td></tr>
+                        <tr><td>Learning rate = 1e-3</td><td>Đánh giá tốc độ hội tụ và độ ổn định khi huấn luyện head mới.</td></tr>
+                        <tr><td>Batch size = 32</td><td>Cân bằng giữa tốc độ huấn luyện và độ ổn định của gradient.</td></tr>
+                        <tr><td>Dropout = 0.3, Dense(256)</td><td>Giảm overfitting và tăng khả năng tổng quát hóa.</td></tr>
+                        <tr><td>Augmentation (xoay, dịch, zoom, lật)</td><td>Tăng đa dạng dữ liệu, giúp mô hình học được tính biến thiên của ảnh món ăn.</td></tr>
+                        <tr><td>Callback (EarlyStopping, ReduceLROnPlateau)</td><td>Theo dõi quá trình học, tự động dừng khi không cải thiện và giảm LR để tinh chỉnh mô hình.</td></tr>
+                        <tr><td>Kích thước ảnh = 224×224</td><td>Đảm bảo phù hợp với kiến trúc ResNet50 và đủ chi tiết cho phân loại.</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            
+
+            
+            <div class="data-analysis-block">
+                <h3>Nhận Xét Kết Quả (Test 1)</h3>
+                
+                <ul>
+                    <li>Với mô hình D1 (ResNet50 pretrained, backbone đóng băng hoàn toàn, chỉ huấn luyện phần head), mô hình đạt khoảng <strong>89% accuracy</strong> trên tập test.</li>
+                    <li>Độ chênh giữa train accuracy, validation accuracy và test accuracy khá nhỏ, cho thấy mô hình <strong>generalize tốt</strong>, chưa có dấu hiệu overfitting nghiêm trọng.</li>
+                    <li>Trong 3 epoch đầu, cả train/validation loss đều giảm mạnh, sau đó validation loss dao động nhẹ quanh 0.43–0.45, trong khi train loss tiếp tục giảm, phù hợp với kỳ vọng khi chỉ fine-tune phần head của một backbone đã được pretrained trên ImageNet.</li>
+                </ul>
+                
+                <p style="font-weight: bold; color: #1e3a8a;">Kết luận: Kết quả Baseline (89.42%) rất tốt, cho thấy đặc trưng của ResNet50 có tính hữu dụng cao ngay cả khi không fine-tune, làm cơ sở vững chắc để so sánh với các thử nghiệm fine-tune sau.</p>
+            </div>
+        <h4 style="margin-top: 30px;">Báo Cáo Phân Loại Chi Tiết (Test Set)</h4>
+            <div class="visual-placeholder" style="text-align: left; background-color: #f7f9fc; padding: 15px;">
+                <p style="font-family: monospace; font-size: 0.9em; white-space: pre-wrap; margin: 0;">
+                        precision    recall  f1-score   support
+
+                Bread     0.8373    0.8533    0.8452       368
+        Dairy product     0.8079    0.8243    0.8161       148
+                Dessert     0.8206    0.8600    0.8398       500
+                    Egg     0.8541    0.8388    0.8464       335
+            Fried food     0.8877    0.8537    0.8703       287
+                Meat     0.8922    0.9005    0.8963       432
+        Noodles-Pasta     0.9795    0.9728    0.9761       147
+                Rice     0.9688    0.9688    0.9688        96
+                Seafood     0.9599    0.8680    0.9116       303
+                Soup     0.9663    0.9740    0.9701       500
+        Vegetable-Fruit     0.9576    0.9784    0.9679       231
+
+            accuracy                         0.8942      3347
+            macro avg     0.9029    0.8993    0.9008      3347
+        weighted avg     0.8953    0.8942    0.8944      3347
+                </p>
+            </div>
+            
+            <h4 style="margin-top: 30px;">Ma Trận Nhầm Lẫn (Confusion Matrix)</h4>
+            <div class="visual-placeholder">
+                <p>Ma trận nhầm lẫn chi tiết (Test 1 - ResNet50 Frozen).</p>
+                <img src="matrix1.png" alt="Ma trận nhầm lẫn của Test 1" class="report-image"> 
+            </div>
+
+            <div class="data-analysis-block" style="margin-top: 30px;">
+                <h3>Nhận Xét Chi Tiết Hiệu Năng Theo Lớp</h3>
+                
+                <ul>
+                    <li>Độ chính xác tổng thể ~<strong>89%</strong> và F1-score ~<strong>0.9</strong> cho thấy mô hình phân loại ổn định và cân bằng giữa các lớp, không bị thiên lệch nặng.</li>
+                    <li>Chênh lệch rất nhỏ giữa accuracy và F1 chứng tỏ mô hình đang cân bằng precision–recall, không đánh đổi một chiều.</li>
+                    <li>Loss thấp (0.3326) phản ánh mô hình đã hội tụ tốt mà không overfitting đáng kể (so với val_loss 0.4254 ở epoch tốt nhất).</li>
+                </ul>
+                
+                <h4>Nhìn chung:</h4>
+                <ul>
+                    <li>Các lớp có hình dạng hoặc màu sắc đặc trưng mạnh như <strong>Soup, Noodles-Pasta, Vegetable-Fruit</strong> đạt **F1 > 0.95**.</li>
+                    <li>Các lớp **Bread, Dairy product, Fried food, Egg** có F1 thấp hơn (0.80–0.84), thường dễ nhầm lẫn với nhau do màu sắc và kết cấu tương tự (ví dụ: Dairy Product có thể bị nhầm với Soup hoặc Dessert).</li>
+                </ul>
+                
+                <p style="font-weight: bold; color: #1e3a8a;">Kết luận: Kết quả Baseline (Test 1) chứng minh đặc trưng học sẵn từ ResNet50 là rất mạnh, đạt gần 90% chỉ bằng cách huấn luyện một lớp phân loại tuyến tính đơn giản.</p>
+            </div>
+
+
+        <h3 style="color: #1e3a8a; font-size: 1.5em; margin-top: 50px;">3.2. Test 2: ResNet50 (Backbone Fine-tune)</h3>
+            
+            <p>Trong mô hình Test 2, nhóm tiếp tục sử dụng backbone ResNet50 pretrained, nhưng thay vì giữ nguyên như Test 1, nhóm **mở (unfreeze) một phần các lớp cuối** của backbone để fine-tune cùng với phần head mới.</p>
+            <p>Cấu trúc head vẫn giữ nguyên (GlobalAveragePooling2D → Dense(256, ReLU) → Dropout(0.3) → Dense(softmax)), nhưng giờ đây một số lớp cuối của ResNet50 cũng được cập nhật trọng số trong quá trình huấn luyện.</p>
+            <p><strong>Learning rate</strong> được giảm xuống (ví dụ 1e-4) so với Test 1, nhằm tránh “phá vỡ” các trọng số pretrained và cho phép mô hình tinh chỉnh nhẹ nhàng các đặc trưng sâu, giúp phù hợp hơn với dữ liệu Food11. Nhờ đó, Test 2 kỳ vọng cải thiện độ chính xác so với Test 1.</p>
+            
+            <h4>Mục tiêu thiết kế Test 2:</h4>
+            <ul>
+                <li>Đánh giá hiệu quả của việc fine-tune backbone so với việc chỉ huấn luyện head như Test 1.</li>
+                <li>So sánh trực tiếp với Test 1 về độ chính xác và F1-score trên tập test.</li>
+                <li>Quan sát ảnh hưởng của fine-tune lên quá trình học (overfitting, hội tụ).</li>
+            </ul>
+
+            <div class="visual-placeholder">
+                <p>Bảng mô tả cấu hình và mục tiêu của Test 2.</p>
+                <table class="report-table">
+                    <thead>
+                        <tr><th>Nội dung thử nghiệm</th><th>Mục tiêu cụ thể</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>Backbone ResNet50 (pretrained, unfreeze ~40 lớp cuối)</td><td>Đánh giá hiệu quả của việc fine-tune một phần backbone so với mô hình chỉ huấn luyện head. Kiểm tra khả năng học thêm đặc trưng chuyên biệt của dữ liệu món ăn.</td></tr>
+                        <tr><td>Learning rate = 1e-4</td><td>Giảm tốc độ cập nhật trọng số để tránh phá vỡ các đặc trưng pretrained, đảm bảo fine-tuning diễn ra ổn định.</td></tr>
+                        <tr><td>Batch size = 32</td><td>Giữ nguyên để đảm bảo tính so sánh công bằng với Test 1.</td></tr>
+                        <tr><td>Dropout = 0.3, Dense(256)</td><td>Giảm overfitting khi thêm nhiều tham số trainable từ backbone.</td></tr>
+                        <tr><td>Augmentation (xoay, dịch, zoom, lật)</td><td>Duy trì đa dạng dữ liệu, giúp backbone học thêm đặc trưng bền vững khi fine-tune.</td></tr>
+                        <tr><td>Callback (EarlyStopping, ReduceLROnPlateau)</td><td>Ổn định quá trình học khi bắt đầu cập nhật trọng số backbone, tự động giảm LR khi val_loss ngừng cải thiện.</td></tr>
+                        <tr><td>Kích thước ảnh = 224×224</td><td>Giữ nguyên để đảm bảo tương thích với kiến trúc ResNet50 và công bằng giữa các test.</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            
+
+            
+            <h4 style="margin-top: 30px;">Báo Cáo Phân Loại Chi Tiết (Test Set)</h4>
+            <div class="visual-placeholder" style="text-align: left; background-color: #f7f9fc; padding: 15px;">
+                <p style="font-family: monospace; font-size: 0.9em; white-space: pre-wrap; margin: 0;">
+                        precision    recall  f1-score   support
+
+                Bread     0.9300    0.9022    0.9159       368
+        Dairy product     0.9044    0.8311    0.8662       148
+                Dessert     0.9040    0.9040    0.9040       500
+                    Egg     0.9192    0.9164    0.9178       335
+            Fried food     0.9048    0.9268    0.9157       287
+                Meat     0.9031    0.9491    0.9255       432
+        Noodles-Pasta     0.9605    0.9932    0.9766       147
+                Rice     0.9579    0.9479    0.9529        96
+                Seafood     0.9592    0.9307    0.9447       303
+                Soup     0.9759    0.9720    0.9739       500
+        Vegetable-Fruit     0.9657    0.9740    0.9698       231
+
+            accuracy                         0.9322      3347
+            macro avg     0.9350    0.9316    0.9330      3347
+        weighted avg     0.9324    0.9322    0.9321      3347
+                </p>
+            </div>
+            <h4 style="margin-top: 30px;">Ma Trận Nhầm Lẫn (Confusion Matrix)</h4>
+            <div class="visual-placeholder">
+                <p>Ma trận nhầm lẫn chi tiết (Test 1 - ResNet50 Frozen).</p>
+                <img src="matrix2.png" alt="Ma trận nhầm lẫn của Test 1" class="report-image"> 
+            </div>
+            <div class="data-analysis-block">
+                <h3>Nhận Xét Kết Quả (Test 2)</h3>
+                
+                <ul>
+                    <li>So với Test 1 (89.42%), độ chính xác tổng thể tăng từ ~0.89 → <strong>0.9322</strong>, và sự cân bằng giữa precision–recall được cải thiện rõ rệt — cho thấy mô hình không chỉ đoán đúng nhiều hơn mà còn dự đoán ổn định hơn giữa các lớp.</li>
+                    <li><strong>Cải thiện rõ rệt ở các lớp khó:</strong> Bread, Dairy product, Fried food, Meat, và Seafood đều có F1 trên 0.91–0.94, chứng tỏ khả năng phân biệt tốt hơn giữa các món có màu sắc và kết cấu tương tự.</li>
+                    <li>Các lớp **Noodles-Pasta, Soup, và Vegetable-Fruit** vẫn giữ hiệu suất rất cao (**F1 > 0.96**).</li>
+                    <li>Không còn lớp nào có recall thấp (&lt;0.83) → mô hình hạn chế được tình trạng bỏ sót ở những lớp nhỏ (như Dairy product hoặc Bread).</li>
+                </ul>
+                
+                <h4>Nhìn chung:</h4>
+                <ul>
+                    <li><strong>Test loss</strong> giảm từ 0.33 (Test 1) → <strong>0.25</strong>, phản ánh độ chắc chắn của dự đoán tăng lên rõ rệt.</li>
+                    <li>Fine-tuning giúp ResNet50 thích nghi sâu hơn với dữ liệu món ăn của Food11, đặc biệt ở các đặc trưng texture, ánh sáng và bố cục món vốn khác biệt so với ImageNet.</li>
+                    <li>Hai callback ReduceLROnPlateau và EarlyStopping hoạt động hiệu quả, giúp giảm learning rate đúng lúc, tránh overfitting và chọn đúng epoch tối ưu (epoch 8).</li>
+                </ul>
+                
+                <p style="font-weight: bold; color: #1e3a8a;">Kết luận: Chiến lược fine-tune backbone (Test 2) là cần thiết để đạt hiệu năng vượt trội, cải thiện độ chính xác hơn 3.8% so với mô hình baseline (Test 1).</p>
+            </div>
+            
+            
+        <h3 style="color: #1e3a8a; font-size: 1.5em; margin-top: 50px;">3.3. Test 3: ResNet50 (Backbone Fine-tune Toàn bộ)</h3>
+            
+            <p>Trong mô hình Test 3, toàn bộ các lớp của backbone ResNet50 pretrained được **unfreeze và cập nhật** trong quá trình huấn luyện. Điều này biến mô hình thành một pipeline end-to-end thực sự, nơi mọi tầng đều tham gia học lại, cho phép mạng tinh chỉnh sâu hơn các đặc trưng phù hợp với dữ liệu món ăn (Food11).</p>
+            <p>Cấu trúc head giữ nguyên. Tuy nhiên, vì toàn bộ backbone được mở khóa, nhóm **giảm learning rate đáng kể (khoảng 1e-5)** để tránh “làm hỏng” các trọng số pretrained, đồng thời sử dụng EarlyStopping và ReduceLROnPlateau nhằm kiểm soát quá trình hội tụ và hạn chế overfitting.</p>
+
+            <div class="visual-placeholder">
+                <p>Bảng mô tả cấu hình và mục tiêu của Test 3 (Full Fine-tune).</p>
+                <table class="report-table">
+                    <thead>
+                        <tr><th>Nội dung thử nghiệm</th><th>Mục tiêu cụ thể</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>Backbone ResNet50 (pretrained, unfreeze toàn bộ)</td><td>Kiểm tra hiệu quả của việc cập nhật toàn bộ trọng số backbone trong huấn luyện end-to-end, đánh giá khả năng học sâu đặc trưng riêng của Food11.</td></tr>
+                        <tr><td>Learning rate = 1e-5</td><td>Hạ LR thấp để tránh phá vỡ trọng số pretrained khi toàn bộ mạng được cập nhật.</td></tr>
+                        <tr><td>Batch size = 32</td><td>Giữ nguyên để đảm bảo tính so sánh với các mô hình D1–D2.</td></tr>
+                        <tr><td>Dropout = 0.3, Dense(256)</td><td>Tiếp tục dùng regularization nhằm giảm overfitting khi số lượng tham số huấn luyện tăng đáng kể.</td></tr>
+                        <tr><td>Augmentation (xoay, dịch, zoom, lật)</td><td>Cung cấp thêm biến thể hình ảnh để hỗ trợ mô hình học tổng quát hóa tốt hơn trong fine-tune toàn phần.</td></tr>
+                        <tr><td>Callback (EarlyStopping, ReduceLROnPlateau)</td><td>Kiểm soát quá trình hội tụ, giúp mô hình dừng đúng lúc khi toàn bộ backbone bắt đầu điều chỉnh trọng số.</td></tr>
+                        <tr><td>Kích thước ảnh = 224×224</td><td>Giữ nguyên để duy trì độ chi tiết và đảm bảo tính nhất quán trong pipeline huấn luyện.</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            
+
+            
+            <h4 style="margin-top: 30px;">Báo Cáo Phân Loại Chi Tiết (Test Set)</h4>
+            <div class="visual-placeholder" style="text-align: left; background-color: #f7f9fc; padding: 15px;">
+                <p style="font-family: monospace; font-size: 0.9em; white-space: pre-wrap; margin: 0;">
+                        precision    recall  f1-score   support
+
+                Bread     0.9354    0.8261    0.8773       368
+        Dairy product     0.8630    0.8514    0.8571       148
+                Dessert     0.8889    0.8640    0.8763       500
+                    Egg     0.8983    0.9224    0.9102       335
+            Fried food     0.8975    0.8850    0.8912       287
+                Meat     0.8985    0.9421    0.9198       432
+        Noodles-Pasta     0.9931    0.9728    0.9828       147
+                Rice     0.9320    1.0000    0.9648        96
+                Seafood     0.9344    0.9406    0.9375       303
+                Soup     0.9742    0.9820    0.9781       500
+        Vegetable-Fruit     0.8937    0.9827    0.9361       231
+
+            accuracy                         0.9184      3347
+            macro avg     0.9190    0.9245    0.9210      3347
+        weighted avg     0.9188    0.9184    0.9179      3347
+                </p>
+            </div>
+            
+            <h4 style="margin-top: 30px;">Ma Trận Nhầm Lẫn (Confusion Matrix)</h4>
+            <div class="visual-placeholder">
+                <p>Ma trận nhầm lẫn chi tiết (Test 1 - ResNet50 Frozen).</p>
+                <img src="matrix3.png" alt="Ma trận nhầm lẫn của Test 1" class="report-image"> 
+            </div>
+            <div class="data-analysis-block">
+                <h3>Nhận Xét Kết Quả (Test 3)</h3>
+                
+                <ul>
+                    <li>Mô hình D3 học sâu toàn diện, nhưng các tầng thấp của ResNet50 vốn học biên, cạnh, texture cơ bản – ít cần điều chỉnh. Việc mở toàn bộ có thể làm **“xáo trộn”** các feature vốn đã tốt.</li>
+                    <li>Hiệu năng test chỉ nhỉnh hơn D1, kém D2 nhẹ (D3: 91.84% vs D2: 93.22%) → thể hiện rằng **“partial fine-tune” (Test 2) là điểm cân bằng tối ưu** giữa tốc độ, độ chính xác và khả năng tổng quát hóa.</li>
+                    <li>D3 vẫn có ưu điểm ở độ ổn định và hội tụ mượt. Callback hoạt động hiệu quả, giúp mô hình dừng đúng lúc, không overfit dù số tham số tăng gấp đôi so với D2.</li>
+                </ul>
+                
+                <h4>Phân tích chi tiết:</h4>
+                <ul>
+                    <li><strong>Recall cao:</strong> Rice và Soup đạt độ phân biệt gần như hoàn hảo. Recall cao hơn ở một số lớp như Egg, Vegetable-Fruit.</li>
+                    <li><strong>Hạn chế:</strong> Precision ở lớp Bread giảm đáng kể (0.9354 → 0.8261 so với D2), do fine-tune toàn phần làm “mềm” ranh giới giữa lớp có đặc trưng gần nhau (Bread có thể bị nhầm với Fried food/Dessert).</li>
+                </ul>
+                
+                <p style="font-weight: bold; color: #ff5722;">Kết luận: Mức cải thiện của Full Fine-tune (D3) so với Partial Fine-tune (D2) là không đáng kể, trong khi chi phí huấn luyện cao hơn nhiều. Chiến lược mở một phần backbone (D2) là hiệu quả nhất cho bài toán này.</p>
+            </div>  
+            
+            
+
+            
+
+
+
+
+        <h3 style="color: #1e3a8a; font-size: 1.5em; margin-top: 50px;">3.4. Test 4: EfficientNetB0 (Backbone Partial Fine-tune)</h3>
+            
+            <p>Trong mô hình Test 4, nhóm thay backbone ResNet50 bằng <strong>EfficientNetB0</strong> – một kiến trúc CNN hiện đại, được thiết kế tối ưu giữa độ chính xác và số lượng tham số. Tương tự Test 2, backbone EfficientNetB0 được khởi tạo từ trọng số pretrained trên ImageNet, sau đó chỉ unfreeze một phần các lớp cuối để fine-tune cùng với phần head mới.</p>
+            <p>Cấu trúc head vẫn được giữ nguyên như các test trước. Để phù hợp với EfficientNet, pipeline dữ liệu của Test 4 sử dụng **hàm tiền xử lý riêng** (<code>eff_preprocess</code>), trong khi các yếu tố khác như kích thước ảnh 224×224, batch size, augmentation, callback đều được giữ giống Test 2.</p>
+
+            <div class="visual-placeholder">
+                <p>Bảng mô tả cấu hình của Test 4 (EfficientNetB0 Partial Fine-tune).</p>
+                <table class="report-table">
+                    <thead>
+                        <tr><th>Nội dung thử nghiệm</th><th>Mục tiêu cụ thể</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>Backbone EfficientNetB0 (pretrained, partial fine-tune)</td><td>Đánh giá khả năng khái quát hóa của kiến trúc EfficientNet so với ResNet50 (Test 2).</td></tr>
+                        <tr><td>Hàm tiền xử lý riêng (eff_preprocess)</td><td>Đảm bảo tính tương thích với kiến trúc EfficientNet.</td></tr>
+                        <tr><td>Learning rate = 1e-4</td><td>Tương tự Test 2, giảm tốc độ cập nhật trọng số để tinh chỉnh một phần backbone.</td></tr>
+                        <tr><td>Các tham số khác</td><td>Giữ nguyên (Batch size=32, Dropout=0.3, Augmentation, Callback) để đảm bảo tính so sánh công bằng.</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <h4 style="margin-top: 30px;">Báo Cáo Phân Loại Chi Tiết (Test Set)</h4>
+            <div class="visual-placeholder" style="text-align: left; background-color: #f7f9fc; padding: 15px;">
+                <p style="font-family: monospace; font-size: 0.9em; white-space: pre-wrap; margin: 0;">
+                    precision    recall  f1-score   support
+
+                Bread     0.9167    0.9266    0.9216       368
+        Dairy product     0.9143    0.8649    0.8889       148
+                Dessert     0.9024    0.8880    0.8952       500
+                    Egg     0.9677    0.8955    0.9302       335
+            Fried food     0.8867    0.9547    0.9195       287
+                Meat     0.9575    0.9398    0.9486       432
+        Noodles-Pasta     0.9797    0.9864    0.9831       147
+                Rice     0.9223    0.9896    0.9548        96
+                Seafood     0.9535    0.9472    0.9503       303
+                Soup     0.9761    0.9800    0.9780       500
+        Vegetable-Fruit     0.9268    0.9870    0.9560       231
+
+            accuracy                         0.9376      3347
+            macro avg     0.9367    0.9418    0.9387      3347
+        weighted avg     0.9381    0.9376    0.9374      3347
+                </p>
+            </div>
+
+            <h4 style="margin-top: 30px;">Ma Trận Nhầm Lẫn (Confusion Matrix)</h4>
+            <div class="visual-placeholder">
+                <p>Ma trận nhầm lẫn chi tiết (Test 4 - EfficientNetB0 Partial Fine-tune).</p>
+                <img src="matrix4.png" alt="Ma trận nhầm lẫn của Test 4" class="report-image"> 
+            </div>
+            
+            <div class="data-analysis-block">
+                <h3>Nhận Xét Kết Quả (Test 4)</h3>
+                
+                <ul>
+                    <li><strong>Accuracy ~ 0.94</strong> (93.76%), **cao nhất** trong toàn bộ 4 thí nghiệm.</li>
+                    <li>Macro F1 ~ 0.94, cho thấy mô hình duy trì được hiệu suất cân bằng giữa các lớp. Mô hình đạt độ chính xác cao ở nhóm lớn (Dessert, Soup) và duy trì recall tốt ở nhóm nhỏ (**Rice, Dairy product**).</li>
+                    <li>Loss trên tập test thấp (~0.32), cho thấy khả năng tổng quát hóa cao, không có dấu hiệu overfitting.</li>
+                </ul>
+                
+                <h4>Kết luận:</h4>
+                <p>Đây là minh chứng rằng kiến trúc <strong>EfficientNet</strong> – được thiết kế dựa trên nguyên lý compound scaling – học được biểu diễn đặc trưng tốt hơn ResNet50. Đặc biệt quan trọng với Food11, nơi các lớp có hình thái và màu sắc rất giống nhau (“fried food” vs “meat”, “bread” vs “dessert”).</p>
+                <p style="font-weight: bold; color: #1e3a8a;">EfficientNetB0 vừa đạt hiệu suất vượt trội (cao hơn ResNet50 Test 2 khoảng 0.5%) vừa nhỏ hơn ResNet50 (khoảng 1/5 số tham số), nên tiêu tốn GPU RAM và thời gian huấn luyện ít hơn, là chiến lược tối ưu nhất cho bài toán này.</p>
+            </div>   
+            
+            
+
+
+
+
+
+
+
+
+
+        <h3 style="color: #1e3a8a; font-size: 1.5em; margin-top: 50px;">3.5. Test 5: Tối ưu hóa Head EfficientNetB0 (Hyperparameter Tuning)</h3>
+            
+            <p>Trong Test 5, nhóm tiếp tục kế thừa cấu trúc của mô hình EfficientNetB0 partial fine-tune (Test 4), nhưng tập trung thử nghiệm các siêu tham số ở phần head — cụ thể là **tăng kích thước tầng Dense từ 256 → 512** và **tăng hệ số Dropout từ 0.3 → 0.4**. Backbone EfficientNetB0 vẫn được giữ nguyên cơ chế fine-tune một phần.</p>
+            <p>Mục tiêu là đánh giá tác động của việc mở rộng head lên hiệu năng tổng thể — kiểm tra xem việc tăng dung lượng mô hình ở tầng phân loại có giúp biểu diễn tốt hơn các đặc trưng đã trích xuất từ backbone, hay ngược lại gây ra overfitting.</p>
+
+            <h4 style="margin-top: 30px;">Báo Cáo Phân Loại Chi Tiết (Test Set)</h4>
+            <div class="visual-placeholder" style="text-align: left; background-color: #f7f9fc; padding: 15px;">
+                <p style="font-family: monospace; font-size: 0.9em; white-space: pre-wrap; margin: 0;">
+                    precision    recall  f1-score   support
+
+                Bread     0.9162    0.8913    0.9036       368
+        Dairy product     0.9028    0.8784    0.8904       148
+                Dessert     0.8958    0.8940    0.8949       500
+                    Egg     0.9279    0.8836    0.9052       335
+            Fried food     0.8867    0.9547    0.9195       287
+                Meat     0.9465    0.9421    0.9443       432
+        Noodles-Pasta     0.9931    0.9728    0.9828       147
+                Rice     0.9314    0.9896    0.9596        96
+                Seafood     0.9561    0.9340    0.9449       303
+                Soup     0.9665    0.9800    0.9732       500
+        Vegetable-Fruit     0.9540    0.9870    0.9702       231
+
+            accuracy                         0.9325      3347
+            macro avg     0.9343    0.9370    0.9353      3347
+        weighted avg     0.9343    0.9325    0.9330      3347
+                </p>
+            </div>
+
+            <h4 style="margin-top: 30px;">Ma Trận Nhầm Lẫn (Confusion Matrix)</h4>
+            <div class="visual-placeholder">
+                <p>Ma trận nhầm lẫn chi tiết (Test 5 - EfficientNetB0 Head Tuning).</p>
+                <img src="matrix5.png" alt="Ma trận nhầm lẫn của Test 5" class="report-image"> 
+            </div>
+            
+            <div class="data-analysis-block">
+                <h3>Nhận Xét Kết Quả (Test 5)</h3>
+                
+                <ul>
+                    <li>Test 5 cho thấy việc tăng kích thước head (Dense512) kết hợp Dropout cao hơn **không làm giảm hiệu năng** mà còn **tăng độ ổn định** của mô hình.</li>
+                    <li>Dù **accuracy** không vượt Test 4 (0.9376 → 0.9325), nhưng các chỉ số **precision–recall cân bằng hơn** (macro avg: 0.9353) chứng tỏ mô hình đã đạt đến vùng tối ưu về cấu trúc và siêu tham số cho EfficientNetB0 partial fine-tune.</li>
+                    <li>Loss thấp hơn và F1-score duy trì mức cao, cho thấy khả năng tổng quát hóa tốt.</li>
+                </ul>
+                
+                <p style="font-weight: bold; color: #1e3a8a;">Kết luận: Test 5 là ứng viên tốt nhất để chọn làm baseline cuối. Dù Accuracy tổng thể nhỉnh hơn ở Test 4, Test 5 thể hiện sự ổn định, độ tin cậy và khả năng tổng quát hóa cao hơn nhờ việc tăng cường Regularization (Dropout 0.4) và dung lượng mô hình (Dense 512) ở tầng phân loại.</p>
+            </div>            
+        </section>
+        
+        <footer>
+            <p>&copy; 2025 Báo cáo ML</p>
+        </footer>
+    </div>
+</body>
+</html>

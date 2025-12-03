@@ -95,13 +95,14 @@ jupyter notebook
 🌐 **Project Page:** [https://phucbuif2175.github.io/CSML25_Machine_Learning/](https://phucbuif2175.github.io/CSML25_Machine_Learning/)  
 🐙 **GitHub Repository:** [https://github.com/PhucBuif2175/CSML25_Machine_Learning/](https://github.com/PhucBuif2175/CSML25_Machine_Learning/)
 
+<!--
 **Landing pages for the assignments:**
 
 1. [**Assignment 1 page**](https://phucbuif2175.github.io/CSML25_Machine_Learning)
 2. [**Assignment 2 page**](https://phucbuif2175.github.io/CSML25_Machine_Learning/)
 3. [**Assignment 3 page**](https://phucbuif2175.github.io/CSML25_Machine_Learning/)
 4. [**Assignment extension page**](https://phucbuif2175.github.io/CSML25_Machine_Learning/)
-
+-->
 📓 **Assignments:**
 
 | #   | Content       | Dataset             | Notebook Source                 | Open in Colab |

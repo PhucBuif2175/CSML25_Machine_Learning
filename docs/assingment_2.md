@@ -1,9 +1,6 @@
-# CSML25 – Assignment 2  
+# CSML25 – Bài 2: Học máy với dữ liệu dạng văn bản (Text Data)
 ## Text Emotion Classification (Notebook `CSML25_BTL2.ipynb`)
-
-Trang này tóm tắt quá trình làm việc và kết quả chính từ notebook `CSML25_BTL2.ipynb` trong môn Machine Learning (CO3117, HK 251).
-
----
+![Emotion](images/dataset2.png)
 
 ## 1. Bài toán & dữ liệu
 
@@ -16,6 +13,9 @@ Trang này tóm tắt quá trình làm việc và kết quả chính từ notebo
   - BoW + Naive Bayes  
   - TF-IDF + Logistic Regression  
   - TF-IDF + Linear SVM
+  - Embedding + Logistic Regression (LR) + Linear SVM (LinearSVC):
+    - all-MiniLM-L6-v2 
+    - DistilBERT-STS 
 - Xây dựng pipeline **deep learning**:
   - CNN + pretrained word embeddings (GloVe)  
   - Trích xuất embedding từ CNN, huấn luyện Random Forest trên embedding.
@@ -32,16 +32,14 @@ Trang này tóm tắt quá trình làm việc và kết quả chính từ notebo
 
 **Phân bố nhãn trên tập train**
 
-| Emotion  | Số mẫu |
-|----------|--------|
-| joy      | 5 362  |
-| sadness  | 4 666  |
-| anger    | 2 159  |
-| fear     | 1 937  |
-| love     | 1 304  |
-| surprise |   572  |
+<p align="center">
+  <img src="images/pie_train.png" width="32%">
+  <img src="images/pie_test.png" width="32%">
+  <img src="images/pie_val.png" width="32%">
+</p>
 
-![Biểu đồ phân phối](images/btl2_1.png)
+
+![Biểu đồ phân phối](images/btl2_1.png) 
 Nhận xét:
 
 - Dữ liệu **mất cân bằng**: `joy` và `sadness` chiếm phần lớn.
@@ -66,135 +64,110 @@ Notebook thêm cột `word_count` cho tập train và thống kê:
 ![Biểu đồ phân phối](images/btl2_2.png)
 Độ dài trung bình theo từng cảm xúc:
 
-- `love`: 20.70 từ  
-- `surprise`: 19.97 từ  
-- `joy`: 19.50 từ  
-- `anger`: 19.23 từ  
-- `fear`: 18.84 từ  
-- `sadness`: 18.36 từ  
+![Biểu đồ phân phối](images/word_count.png)
 
-
-![Biểu đồ phân phối](images/btl2_3.png)
 Nhận xét:
 
 - Câu trong dataset nhìn chung **khá ngắn**, chủ yếu 10–25 từ.  
 - Các cảm xúc tích cực/đặc biệt như `love`, `surprise` có xu hướng câu dài hơn một chút.  
 - Điều này giúp các mô hình dựa trên Bag-of-Words / TF-IDF hoạt động tốt, vì câu không quá dài để gây sparsity quá lớn.
 
-Ngoài ra, notebook vẽ:
+Trực quan hoá ngôn ngữ:
 
-- Histogram phân bố `word_count`.  
-- Boxplot độ dài câu cho từng cảm xúc.
+![Biểu đồ phân phối](images/fre_all.png)
 
-Từ boxplot có thể thấy:
-
-- Có outlier (câu rất dài) nhưng không nhiều.  
-- Các cảm xúc tiêu cực (`sadness`, `fear`, `anger`) có phân bố độ dài tương đối tương đồng.
+<p align="center">
+  <img src="images/fre_an.png" width="32%">
+  <img src="images/fre_sad.png" width="32%">
+  <img src="images/fre_joy.png" width="32%">
+</p>
+<p align="center">
+  <img src="images/fre_love.png" width="32%">
+  <img src="images/fre_fear.png" width="32%">
+  <img src="images/fre_supr.png" width="32%">
+</p>
 
 ### 2.2 Missing values & duplicate
 
-**Missing values**
+**Missing values** → Không có dòng bị thiếu dữ liệu.
 
-Notebook kiểm tra 3 tập (train / val / test):
-
-| Cột     | train_missing | test_missing | val_missing |
-|--------|---------------|-------------|------------|
-| text   | 0             | 0           | 0          |
-| emotion| 0             | 0           | 0          |
-| label  | 0             | 0           | 0          |
-
-→ Không có dòng bị thiếu dữ liệu.
-
-**Duplicate**
-
-- Số dòng duplicate:  
-  - Train: 1  
-  - Validation: 0  
-  - Test: 0  
+**Duplicate and conflict** 
+→ 1 dòng duplicate ở tập train 
+→ 30 dòng xung đột do trùng nhau nhưng cùng label
 - Sau khi:
   - Xóa duplicate trên cặp (`text`, `emotion`).  
   - Loại bỏ các text có conflict label (cùng câu nhưng label khác).  
 - Kích thước train còn: **15 939 dòng**.
 
-Nhận xét:
+## 3. Kết quả thực nghiệm (Experimental Results)
 
-- Dataset khá sạch: hầu như không có missing, ít duplicate.  
-- Việc xử lý duplicate giúp mô hình không bị “học” từ các mẫu mâu thuẫn.
+### Tổng quan
 
----
+Nhóm đã thử nghiệm **50+ cấu hình mô hình** khác nhau cho bài toán Text Emotion Classification, bao gồm:
 
-## 4. Kết quả thực nghiệm (Experimental Results)
-![Biểu đồ phân phối](images/btl2_4.png)
+- **Phương pháp đặc trưng**: TF-IDF, Bag of Words, BERT embeddings (MiniLM, DistilBERT)
+- **N-gram**: Bigram, Trigram
+- **Thuật toán**:  LinearSVC, Logistic Regression, Multinomial Naive Bayes
+- **Kỹ thuật tối ưu**: Class balancing, GridSearchCV
+
+![Biểu đồ phân phối](images/top10.png)
+
+### Top 5 Mô hình tốt nhất
+
+| Rank | Feature Set | Classifier | Accuracy | F1-Macro | Description |
+|------|-------------|------------|----------|----------|-------------|
+| 1 | TF-IDF Unigram | LinearSVC | 90.75% | **88.14%** | Balanced, No-CV |
+| 2 | TF-IDF Bigram | LinearSVC | **91.10%** | 88.10% | Balanced, No-CV |
+| 3 | TF-IDF Bigram | LogisticRegression | 90.75% | 88.09% | Balanced, GridSearchCV |
+| 4 | TF-IDF Trigram | LinearSVC | 91.05% | 88.06% | Balanced, GridSearchCV |
+| 5 | TF-IDF Trigram | LogisticRegression | 90.60% | 88.06% | Balanced, No-CV |
+
+### So sánh các phương pháp
+
+#### Phương pháp biểu diễn đặc trưng
+
+| Method | Best Accuracy | Best F1-Macro |
+|--------|---------------|---------------|
+| **TF-IDF Unigram** | **90.75%** | **88.14%** |
+| **BoW Bigram** | 90.85% | 87.96% |
+| **BERT MiniLM** | 70.60% | 63.32% |
+| **DistilBERT STS** | 69.20% | 61.76% |
+
+**Nhận xét**: 
+- TF-IDF Trigram cho kết quả tốt nhất
+- BERT embeddings kém hơn ~20% (cần fine-tuning thay vì chỉ dùng embeddings)
+
+#### Thuật toán phân loại
+
+| Classifier | Best Accuracy | Best F1-Macro |
+|------------|---------------|---------------|
+| **LinearSVC** | **91.10%** | **88.06%** |
+| **Logistic Regression** | **90.60%** | **88.06%** |
+| **Multinomial NB** | 86.05% | 80.95% |
+
+**Nhận xét**: LinearSVC và Logistic Regression có hiệu suất tương đương, vượt trội Naive Bayes ~5%
+
+#### Impact của các kỹ thuật
+
+| Technique | Impact | Note |
+|-----------|--------|------|
+| **Trigram vs Bigram** | +0.20% | Cải thiện nhẹ |
+| **Class Balancing** | ±0-2% | Cải thiện F1-macro tốt hơn accuracy |
+| **GridSearchCV** | -0.20% ~ 0% | Không cải thiện đáng kể |
+| **Preprocessing** | +1.4% | **quan trọng** |
+
+### Kết luận
+
+#### ✅ Mô hình đề xuất
+
+**TF-IDF Unigram + LinearSVC (Balanced)**
+- Accuracy: **90.75%** | F1-Macro: **88.14%**
+- Đơn giản, nhanh, không cần GPU
+- Phù hợp cho production
+
+**Mô hình thay thế**:  BoW Bigram + Logistic Regression (90.85%) - Dễ interpret
 
 
-### 4.1. Top 5 Cấu hình tốt nhất (Best Performing Models)
-Bảng dưới đây liệt kê 5 cấu hình đạt hiệu quả cao nhất trong toàn bộ quá trình thử nghiệm.
-
-| Rank | Classifier | Feature Set | Balancing Strategy | CV | Accuracy | F1-Macro |
-|:---:|:---|:---|:---:|:---:|:---:|:---:|
-| 1 | **LinearSVC** | TF-IDF (Unigram) | Class Weight | No | 0.9075 | **0.8814** |
-| 2 | **LinearSVC** | TF-IDF (Bigram) | Class Weight | No | **0.9110** | 0.8810 |
-| 3 | Logistic Regression | TF-IDF (Bigram) | Class Weight | No | 0.9075 | 0.8809 |
-| 4 | LinearSVC | TF-IDF (Trigram) | Class Weight | No | 0.9105 | 0.8806 |
-| 5 | Logistic Regression | TF-IDF (Trigram) | Class Weight | No | 0.9060 | 0.8806 |
-
-> **Nhận xét:** Nhóm mô hình **LinearSVC** và **Logistic Regression** khi kết hợp với **TF-IDF** và kỹ thuật cân bằng dữ liệu (**Class Weight**) cho kết quả vượt trội và ổn định nhất, với F1-Macro đều đạt trên 0.88.
-
----
-
-### 4.2. Chi tiết theo từng nhóm thuật toán
-
-Để đánh giá rõ hơn ảnh hưởng của việc trích chọn đặc trưng (N-grams) và cân bằng dữ liệu, chúng tôi phân tích chi tiết từng nhóm mô hình.
-
-#### A. Linear SVC (Support Vector Machine)
-Đây là thuật toán hoạt động ổn định nhất. Việc cân bằng dữ liệu (Balancing) giúp cải thiện nhẹ chỉ số F1-Macro.
-
-| Feature Set | Balancing | CV | Accuracy | F1-Macro | Ghi chú |
-|:---|:---:|:---:|:---:|:---:|:---|
-| **TF-IDF (Unigram)** | **Yes** | No | 0.9075 | **0.8814** | **Best F1** |
-| TF-IDF (Bigram) | Yes | No | **0.9110** | 0.8810 | **Best Accuracy** |
-| TF-IDF (Trigram) | Yes | No | 0.9105 | 0.8806 | |
-| TF-IDF (Bigram) | No | No | 0.9115 | 0.8804 | |
-| TF-IDF (Trigram) | No | No | 0.9110 | 0.8797 | |
-| TF-IDF (Unigram) | No | No | 0.9050 | 0.8770 | Thấp hơn khi không cân bằng |
-
-#### B. Logistic Regression
-Mô hình này chịu ảnh hưởng lớn từ việc cân bằng dữ liệu. Khi sử dụng `class_weight='balanced'`, hiệu năng tăng đáng kể.
-
-| Feature Set | Balancing | CV | Accuracy | F1-Macro | Ghi chú |
-|:---|:---:|:---:|:---:|:---:|:---|
-| **TF-IDF (Bigram)** | **Yes** | No | **0.9075** | **0.8809** | **Best Config** |
-| TF-IDF (Trigram) | Yes | No | 0.9060 | 0.8806 | |
-| TF-IDF (Unigram) | Yes | No | 0.8930 | 0.8676 | |
-| TF-IDF (Bigram) | No | No | 0.8850 | 0.8386 | Giảm ~4% F1 nếu không cân bằng |
-| TF-IDF (Trigram) | No | No | 0.8845 | 0.8381 | |
-| TF-IDF (Unigram) | No | No | 0.8775 | 0.8357 | |
-
-#### C. Multinomial Naive Bayes
-Đây là mô hình nhạy cảm nhất với dữ liệu mất cân bằng. Nếu không xử lý, mô hình gần như thất bại trong việc dự đoán các lớp thiểu số.
-
-| Feature Set | Balancing | CV | Accuracy | F1-Macro | Ghi chú |
-|:---|:---:|:---:|:---:|:---:|:---|
-| **BoW (Bigram)** | **Yes** | GridSearch | **0.9085** | **0.8796** |  |
-| TF-IDF (Bigram) | Yes | No | 0.8575 | 0.8188 | |
-| TF-IDF (Trigram) | Yes | No | 0.8560 | 0.8188 | |
-| TF-IDF (Unigram) | Yes | No | 0.8535 | 0.8146 | |
-| BoW (Bigram) | No | No | 0.8455 | 0.7658 | |
-| TF-IDF (Unigram) | No | No | 0.7295 | 0.5234 |  |
-
-### 4.3. Tổng kết so sánh (Key Findings)
-
-Từ các bảng số liệu trên, ta rút ra 3 kết luận chính:
-
-1.  **LinearSVC là lựa chọn tối ưu:** Với độ phức tạp tính toán vừa phải và độ chính xác cao nhất (Accuracy ~91.1%), đây là mô hình phù hợp nhất cho bài toán này.
-2.  **Tầm quan trọng của cân bằng dữ liệu:**
-    * Với **Naive Bayes**: Cực kỳ quan trọng (F1 tăng từ 0.52 -> 0.81).
-    * Với **Logistic Regression**: Quan trọng (F1 tăng từ 0.83 -> 0.88).
-    * Với **LinearSVC**: Ít ảnh hưởng hơn nhưng vẫn mang lại hiệu quả tích cực.
-3.  **Feature Selection (N-grams):**
-    * **Bigram (1,2)** thường cho kết quả tốt hơn Unigram vì bắt được ngữ cảnh cục bộ (ví dụ: "not good").
-    * **Trigram (1,3)** không mang lại sự cải thiện đáng kể so với Bigram nhưng làm tăng số chiều dữ liệu, gây tốn tài nguyên hơn.
-    
 ## So sánh mô hình tuyến tính với CNN + Random Forest
 
 Trong notebook, CNN được dùng để trích xuất embedding, sau đó dùng Random Forest để phân loại. Kết quả classification report (trên test set 2000 mẫu):
@@ -210,40 +183,7 @@ Chi tiết theo từng lớp:
 - Các lớp 0, 2, 4: precision/recall ~0.90–0.93, F1 ≈ 0.89–0.93.
 - Lớp 3 và 5: F1 chỉ khoảng 0.70–0.74 do ít dữ liệu và phân bố không đều.
 
-
-## 5. Tổng kết & hướng phát triển
-
-### 5.1 So sánh các mô hình
-
-- **Naive Bayes + BoW**:
-  - Nhanh, đơn giản, nhưng hiệu năng chỉ ở mức baseline (Accuracy ~0.77, F1-macro ~0.65).  
-- **Logistic Regression + TF-IDF**:
-  - Cải thiện đồng đều cả Accuracy và F1-macro.  
-  - TF-IDF + bigram nắm bắt tốt hơn thông tin ngữ cảnh so với BoW.  
-- **Linear SVM + TF-IDF**:
-  - Cho kết quả **tốt nhất** trong notebook: Accuracy ~0.897, F1-macro ~0.863 trên validation.  
-  - Mạnh trên dữ liệu văn bản high-dimensional, cân bằng tốt giữa các lớp.  
-- **CNN embedding + Random Forest**:
-  - Hiệu năng ~0.89 Accuracy, macro F1 ~0.84 trên test.  
-  - Ưu điểm: tạo được embedding câu có thể reuse, linh hoạt cho các mô hình khác.  
-  - Nhược điểm: phức tạp hơn, thời gian train lâu hơn, mà chưa vượt rõ ràng so với TF-IDF + SVM.
-
-### 5.2 Hướng mở rộng
-
-Một số hướng có thể phát triển từ notebook hiện tại:
-
-- Tiền xử lý nâng cao:
-  - Lowercase, loại bỏ stopword, lemmatization/stemming, xử lý emoji / emoticon.  
-- Mô hình mạnh hơn:
-  - Thử các pretrained model như BERT / RoBERTa / DistilBERT, Sentence-Transformers để biểu diễn câu.  
-- Xử lý mất cân bằng:
-  - Dùng `class_weight` cho SVM / LR.  
-  - Thử oversampling (SMOTE) hoặc focal loss (cho mô hình deep-learning).  
-- Tuning thêm hyperparameter:
-  - GridSearch / RandomSearch cho C của SVM, max_features của TF-IDF, số filter / kernel size của CNN.  
-- Đánh giá đầy đủ hơn:
-  - So sánh trên cùng split (test set) giữa các mô hình.  
-  - Vẽ thêm PR-curve / ROC-curve cho từng lớp.
+**Kết luận:** Với Accuracy 89%, phương pháp này tiệm cận sát với kết quả tốt nhất của LinearSVC (91.1%), chứng minh tiềm năng của việc sử dụng Deep Learning để tạo ra các biểu diễn đặc trưng dày đặc (dense representations) cho bài toán này.
 
 ---
 

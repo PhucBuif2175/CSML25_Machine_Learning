@@ -26,16 +26,21 @@
 * **Kích thước:** 10,000 mẫu quan sát và 21 cột (features).
 * **Phân loại Features:** Có 8 cột kiểu số (Numeric) và 12 cột kiểu phân loại (Categorical).
 
+<img src="images/1_bar_chart_categorical_1.png" alt="1_bar_chart_categorical_1" width="900">
+<img src="images/1_bar_chart_categorical_2.png" alt="1_bar_chart_categorical_2" width="900">
+<img src="images/1_bar_chart_categorical_3.png" alt="1_bar_chart_categorical_3" width="900">
+<img src="images/1_bar_chart_categorical_4.png" alt="1_bar_chart_categorical_4" width="900">
+
+
 ### 2. Phân bố Biến mục tiêu (`Healthy`)
 * Biến mục tiêu có sự mất cân bằng lớp nhẹ: **Yes (Khỏe mạnh):** 71.78% và **No (Không khỏe mạnh):** 25.0%. (3.22% mẫu thiếu đã bị loại bỏ).
 
 ### 3. Giá trị thiếu (Missing Values)
 * Tỉ lệ Missing: Dao động từ **2.49%** đến **3.45%** trên hầu hết các cột.
 
-![1_bar_chart_categorical_1](images/1_bar_chart_categorical_1.png)
-![1_bar_chart_categorical_2](images/1_bar_chart_categorical_2.png)
-![1_bar_chart_categorical_3](images/1_bar_chart_categorical_3.png)
-![1_bar_chart_categorical_4](images/1_bar_chart_categorical_4.png)
+### 4. Ma trận tương quan
+
+<img src="images/1_correlation_matrix.png" alt="1_correlation_matrix" width="700">
 
 ---
 

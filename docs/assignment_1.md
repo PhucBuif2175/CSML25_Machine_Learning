@@ -1,6 +1,9 @@
-# DỰ ĐOÁN TÌNH TRẠNG SỨC KHỎE CỦA CHÓ DỰA TRÊN GIỐNG VÀ ĐẶC TRƯNG LIÊN QUAN
+# CSML25 – Bài 1: Học máy với dữ liệu dạng bảng (Tabular Data)
+# Dự đoán tình trạng sức khỏe của cún dựa trên giống và các đặc trưng sức khỏe liên quan
 
-## I. THÔNG TIN CHUNG VÀ MỤC TIÊU BÀI TẬP
+![Canine Wellness Dataset](images/dataset1.png)
+
+## Thông tin chung
 
 | Mục | Chi tiết |
 | :--- | :--- |
@@ -10,21 +13,35 @@
 | **Tên nhóm** | CSML25 |
 | **Thành viên** | Nguyễn Đăng Khánh (2311512), Bùi Ngọc Phúc (2312665), Đinh Hoàng Chung (2310359) |
 
-### Mục tiêu chính của Bài toán
-* Hiểu và áp dụng quy trình pipeline học máy truyền thống (tiền xử lý dữ liệu, trích xuất đặc trưng, huấn luyện và đánh giá mô hình).
-* Rèn luyện kỹ năng triển khai mô hình học máy trên các loại dữ liệu khác nhau.
-* Phát triển khả năng phân tích, so sánh, và đánh giá hiệu quả của các mô hình học máy thông qua các chỉ số đo lường.
-* **Khuyến khích**: Thực hiện thêm pipeline học sâu (Deep Learning) để so sánh với pipeline truyền thống.
 
+## 1. Bài toán & dữ liệu
+
+### 1.1 Mục tiêu
+- Xây dựng pipeline machine learning **truyền thống** cho bài toán phân lớp tình trạng sức khỏe của cún dựa trên dữ liệu dạng bảng .
+- Thực hiện **EDA**:
+  - Thống kê mô tả cho các đặc trưng kiểu số (numeric), kiểu phân loại (categorical) và biến mục tiêu (target)
+  - Kiểm tra missing value, trực quan hóa dữ liệu, phân tích xu hướng phân phối, phát hiện outlier.
+- Tiền dữ liệu:
+  - Xử lý missing value bằng kỹ thuật imputation
+  - Chuẩn hóa categorical value bằng kỹ thuật encoding.
+  - Xử lý outliers bằng phương pháp clipping.
+  - Chuẩn hóa các biến numeric bằng các phương pháp scaling.
+  - Trích xuất và lựa chọn đặc trưng và thử nghiệm với phương pháp giảm số chiều (như PCA,...).
+- Thử nghiệm huấn luyện các mô hình:
+  - Logistic Regression.
+  - SVM - Support vector machine.
+  - Random Forest.
+  - Thử nghiệm pipeline học sâu với mô hình MLP.
+- So sánh và đánh giá các kết quả thử nghiệm.
 ---
 
-## II. BỘ DỮ LIỆU VÀ PHÂN TÍCH THĂM DÒ (EDA)
-
-### 1. Tổng quan Bộ dữ liệu
+### 1.2 Tổng quan Bộ dữ liệu
 * **Tên:** Canine Wellness Classification Dataset (Synthetic, 10,000 Samples).
-* **Mục tiêu phân loại:** Dự đoán liệu một con chó có khỏe mạnh (`Yes`) hay không (`No`) (Phân loại nhị phân).
+* **Mục tiêu phân loại:** Dự đoán liệu một con cún có khỏe mạnh (`Yes`) hay không (`No`) (Phân loại nhị phân).
 * **Kích thước:** 10,000 mẫu quan sát và 21 cột (features).
 * **Phân loại Features:** Có 8 cột kiểu số (Numeric) và 12 cột kiểu phân loại (Categorical).
+
+<img src="images/bar_unique.png" alt="bar_unique.png" width="900">
 
 <img src="images/1_bar_chart_categorical_1.png" alt="1_bar_chart_categorical_1" width="900">
 <img src="images/1_bar_chart_categorical_2.png" alt="1_bar_chart_categorical_2" width="900">

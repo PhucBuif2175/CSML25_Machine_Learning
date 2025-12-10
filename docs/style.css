@@ -1,0 +1,233 @@
+/* =========================================
+   1. GLOBAL RESET & BASE STYLES
+   ========================================= */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    line-height: 1.6;
+    color: #333;
+    background-color: #f0f2f5; /* Màu nền xám nhẹ dễ chịu cho mắt */
+    font-size: 16px;
+}
+
+/* =========================================
+   2. CONTAINER & LAYOUT
+   ========================================= */
+.container {
+    max-width: 1000px;
+    margin: 30px auto;
+    background-color: #fff;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.05); /* Đổ bóng nhẹ cho trang giấy */
+    border-radius: 8px;
+    overflow: hidden; /* Bo tròn các góc */
+}
+
+/* =========================================
+   3. HEADER SECTION
+   ========================================= */
+.report-header {
+    background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%); /* Gradient xanh hiện đại */
+    color: #fff;
+    padding: 60px 40px;
+    text-align: center;
+}
+
+.report-header h1 {
+    font-size: 2.5rem;
+    margin: 10px 0 20px;
+    font-weight: 700;
+    line-height: 1.2;
+}
+
+.course-details {
+    background-color: rgba(255, 255, 255, 0.1); /* Lớp nền mờ trong suốt */
+    padding: 20px;
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.course-details p {
+    margin-bottom: 8px;
+}
+
+/* =========================================
+   4. CONTENT SECTIONS
+   ========================================= */
+.report-section, 
+.group-info-section {
+    padding: 40px;
+    border-bottom: 1px solid #eee;
+}
+
+.last-section {
+    border-bottom: none;
+}
+
+/* Headings H2, H3 */
+h2 {
+    color: #1e3a8a; /* Màu xanh đậm chủ đạo */
+    font-size: 1.8rem;
+    margin-bottom: 25px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #e5e7eb; /* Đường gạch chân tiêu đề */
+}
+
+h3 {
+    color: #1f2937;
+    font-size: 1.4rem;
+    margin-top: 30px;
+    margin-bottom: 15px;
+    font-weight: 600;
+}
+
+h4 {
+    color: #4b5563;
+    font-size: 1.1rem;
+    margin-top: 20px;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+p, ul {
+    margin-bottom: 15px;
+    text-align: justify; /* Căn đều văn bản 2 bên */
+}
+
+ul {
+    padding-left: 20px;
+}
+
+li {
+    margin-bottom: 5px;
+}
+
+/* =========================================
+   5. TABLES (Student Info & Results)
+   ========================================= */
+.report-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    font-size: 0.95rem;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+}
+
+.report-table thead {
+    background-color: #1e3a8a;
+    color: #ffffff;
+}
+
+.report-table th, 
+.report-table td {
+    padding: 12px 15px;
+    text-align: left;
+    border: 1px solid #e5e7eb;
+}
+
+.report-table tbody tr:nth-of-type(even) {
+    background-color: #f9fafb; /* Màu xen kẽ cho các dòng */
+}
+
+.report-table tbody tr:hover {
+    background-color: #f3f4f6; /* Hiệu ứng khi di chuột vào dòng */
+}
+
+/* Căn giữa cho các cột số liệu nếu cần */
+.report-table td:not(:first-child), 
+.report-table th:not(:first-child) {
+    text-align: center;
+}
+
+/* =========================================
+   6. IMAGES & VISUAL PLACEHOLDERS
+   ========================================= */
+/* Gom nhóm các class visual-placeholder lại */
+.visual-placeholder,
+.visual-placeholder1,
+.visual-placeholder2,
+.visual-placeholder3 {
+    margin: 20px 0;
+    text-align: center;
+    background-color: #fff;
+    padding: 10px;
+    border: 1px solid #e5e7eb;
+    border-radius: 6px;
+}
+
+.report-image {
+    max-width: 100%; /* Đảm bảo ảnh không bị tràn ra ngoài */
+    height: auto;
+    display: inline-block;
+    border-radius: 4px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1); /* Đổ bóng ảnh */
+}
+
+/* Caption nhỏ dưới ảnh (nếu có thẻ p bên trong placeholder) */
+.visual-placeholder p {
+    font-size: 0.9rem;
+    color: #666;
+    margin-bottom: 10px;
+    text-align: center;
+    font-style: italic;
+}
+
+/* Styling cho khối Text Báo cáo (Classification Report) */
+div[style*="background-color: #f7f9fc"] {
+    border-left: 4px solid #1e3a8a; /* Đường viền xanh bên trái tạo điểm nhấn */
+    overflow-x: auto; /* Cho phép cuộn ngang trên mobile nếu text quá dài */
+    border-radius: 4px;
+}
+
+/* =========================================
+   7. FOOTER
+   ========================================= */
+footer {
+    background-color: #1f2937;
+    color: #9ca3af;
+    text-align: center;
+    padding: 20px;
+    font-size: 0.9rem;
+    border-top: 1px solid #374151;
+}
+
+/* =========================================
+   8. RESPONSIVE DESIGN (Mobile)
+   ========================================= */
+@media (max-width: 768px) {
+    .container {
+        margin: 0;
+        width: 100%;
+        border-radius: 0;
+        box-shadow: none;
+    }
+
+    .report-header {
+        padding: 40px 20px;
+    }
+
+    .report-header h1 {
+        font-size: 1.8rem;
+    }
+
+    .report-section, 
+    .group-info-section {
+        padding: 25px 20px;
+    }
+
+    /* Table scroll ngang trên mobile để không vỡ layout */
+    .report-table {
+        display: block;
+        overflow-x: auto;
+        white-space: nowrap;
+    }
+    
+    h2 {
+        font-size: 1.5rem;
+    }
+}

@@ -55,7 +55,7 @@
 
 
 ### 1.6 Phân bố Biến mục tiêu (`Healthy`)
-<img src="images/bar_target.png" alt="bar_target" width="900">
+<img src="images/bar_target.png" alt="bar_target" width="700">
 
 * Biến mục tiêu có sự mất cân bằng lớp nhẹ: **Yes (Khỏe mạnh):** 71.78% và **No (Không khỏe mạnh):** 25.0%. (3.22% mẫu thiếu đã bị loại bỏ).
 
@@ -67,59 +67,7 @@
 ### 1.8 Ma trận tương quan
 
 <img src="images/1_correlation_matrix.png" alt="1_correlation_matrix" width="700">
-* Hầu hết các hệ số tương quan đều gần bằng 0, nghĩa là gần như không có mối liên hệ tuyến tính đáng kể giữa các biến. Điều này cho thấy các biến trong bộ dữ liệu khá độc lập với nhau.
-
-### 1.9 Phát hiện outliers
-
-<img src="images/boxplot_num.png" alt="boxplot_num.png" width="700">
-Ở biến Weight (lbs), khoảng tứ phân vị (IQR) nằm xung quanh 40–60 lbs. Tuy nhiên, nhiều giá trị vượt quá ngưỡng Q3 + 1.5×IQR (trên 90 lbs) xuất hiện, tạo thành các ngoại lệ phía trên (upper outliers).
-
----
-
-## 2. Tiền xử lý dữ liệu
-1.  **Xử lí giá trị thiếu ở biến mục tiêu**
-   - Loại bỏ các hàng chứa giá trị bị thiếu trong cột này.
-   - Kết quả cho thấy có khoảng 3.22% mẫu dữ liệu bị thiếu nhãn, do đó số lượng mẫu đã giảm từ 10,000 xuống còn 9,678.
-1.  **Chia Train/Test:** Dữ liệu được chia theo tỷ lệ **80/20** (`test_size=0.2`) với tham số `stratify=y`.
-2.  **Xử lý Missing Values:**
-    * Các cột **Numeric** được impute bằng **Median**.
-    * Các cột **Categorical** được impute bằng **Most Frequent** (Mode).
-3.  **Xử lý Outliers:** Sử dụng kỹ thuật **Clipping** cho các biến Numeric.
-4.  **Scaling (Chuẩn hóa):** Sử dụng **StandardScaler** cho các biến Numeric.
-5.  **Encoding:** Sử dụng **OneHotEncoder** cho các biến Categorical.
-6.  **Xem xét Kỹ thuật Giảm chiều dữ liệu (Dimensionality Reduction - PCA)**
-    * **Kỹ thuật được xem xét:** Phân tích Thành phần Chính (PCA).
-    * **Mục đích:** Giảm số lượng đặc trưng đầu vào, đơn giản hóa mô hình và giảm thời gian huấn luyện.
-    * **Phân tích:** Dựa trên kết quả Ma trận Tương quan (Correlation Matrix) trong EDA, các đặc trưng Numeric được xác định có **tương quan rất thấp** với nhau (hệ số tương quan gần 0).
-    * **Quyết định:** PCA **không được áp dụng** vào pipeline tiền xử lý. Việc giảm chiều dữ liệu trong trường hợp các đặc trưng đã độc lập sẽ dẫn đến việc **mất mát thông tin quan trọng** và có khả năng **làm giảm độ chính xác (Accuracy)** của mô hình.
-
----
-
-## 3. Kết quả thực nghiệm (Experimental Results):
-
-Nhóm đã thử nghiệm:
-- Pipeline truyền thống được triển khai: Logistic Regression, SVM (RBF), và Random Forest
-    - Đánh giá trên tập test.
-    - Cross-Validation (5-fold CV)
-- Pipeline học sâu với mô hình Mạng nơ-ron đa lớp (MLP – Multi-Layer Perceptron)
-### Pipeline học máy truyền thống:
-### 3.1. Kết quả trên TEST SET (Tập kiểm tra)
-
-| Model | Accuracy | F1 | ROC-AUC | PR-AUC |
-| :--- | :--- | :--- | :--- | :--- |
-| **Random Forest** | 0.932 | **0.956** | 0.978 | **0.992** |
-| **SVM (RBF)** | 0.924 | 0.950 | 0.969 | 0.989 |
-| **Logistic Regression** | 0.880 | 0.920 | 0.936 | 0.975 |
-
-**ROC Curves & Precision-Recall Curves**
-
-<p align="center">
-  <img src="images/roc1.png" width="32%">
-  <img src="images/precision_recall.png" width="32%">
-</p>
-
-**Confusion matrices**
-<img src="images/confusion.png" alt="confusion" width="700">
+* Hầu hết các hệ số tương quan đều gần bằng 0, nghĩa là gần như không có mối liên hệ tuyến tính đáng kể g1000">
 
 ### 3.2. Kết quả Cross-Validation (5-fold CV)
 

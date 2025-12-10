@@ -41,33 +41,50 @@
 * **Kích thước:** 10,000 mẫu quan sát và 21 cột (features).
 * **Phân loại Features:** Có 8 cột kiểu số (Numeric) và 12 cột kiểu phân loại (Categorical).
 
+### 1.3 Số lượng unique value:
 <img src="images/bar_unique.png" alt="bar_unique.png" width="900">
 
+### 1.4 Thống kê mô tả cho các đặc trưng kiểu số (numeric features):
+<img src="images/histogram_numeric.png" alt="histogram_numeric" width="900">
+
+### 1.5 Thống kê mô tả cho các đặc trưng kiểu phân loại (categorical features):
 <img src="images/1_bar_chart_categorical_1.png" alt="1_bar_chart_categorical_1" width="900">
 <img src="images/1_bar_chart_categorical_2.png" alt="1_bar_chart_categorical_2" width="900">
 <img src="images/1_bar_chart_categorical_3.png" alt="1_bar_chart_categorical_3" width="900">
 <img src="images/1_bar_chart_categorical_4.png" alt="1_bar_chart_categorical_4" width="900">
 
 
-### 2. Phân bố Biến mục tiêu (`Healthy`)
+### 1.6 Phân bố Biến mục tiêu (`Healthy`)
+<img src="images/bar_target.png" alt="bar_target" width="900">
+
 * Biến mục tiêu có sự mất cân bằng lớp nhẹ: **Yes (Khỏe mạnh):** 71.78% và **No (Không khỏe mạnh):** 25.0%. (3.22% mẫu thiếu đã bị loại bỏ).
 
-### 3. Giá trị thiếu (Missing Values)
+### 1.7 Giá trị thiếu (Missing Values)
+<img src="images/missing_bar.png" alt="missing_bar.png" width="900">
+
 * Tỉ lệ Missing: Dao động từ **2.49%** đến **3.45%** trên hầu hết các cột.
 
-### 4. Ma trận tương quan
+### 1.8 Ma trận tương quan
 
 <img src="images/1_correlation_matrix.png" alt="1_correlation_matrix" width="700">
+* Hầu hết các hệ số tương quan đều gần bằng 0, nghĩa là gần như không có mối liên hệ tuyến tính đáng kể giữa các biến. Điều này cho thấy các biến trong bộ dữ liệu khá độc lập với nhau.
+
+### 1.9 Phát hiện outliers
+
+<img src="images/boxplot_num.png" alt="boxplot_num.png" width="700">
+Ở biến Weight (lbs), khoảng tứ phân vị (IQR) nằm xung quanh 40–60 lbs. Tuy nhiên, nhiều giá trị vượt quá ngưỡng Q3 + 1.5×IQR (trên 90 lbs) xuất hiện, tạo thành các ngoại lệ phía trên (upper outliers).
 
 ---
 
-## III. TÓM TẮT PIPELINE TIỀN XỬ LÝ (PREPROCESSING)
-
+## 2. Tiền xử lý dữ liệu
+1.  **Xử lí giá trị thiếu ở biến mục tiêu**
+   - Loại bỏ các hàng chứa giá trị bị thiếu trong cột này.
+   - Kết quả cho thấy có khoảng 3.22% mẫu dữ liệu bị thiếu nhãn, do đó số lượng mẫu đã giảm từ 10,000 xuống còn 9,678.
 1.  **Chia Train/Test:** Dữ liệu được chia theo tỷ lệ **80/20** (`test_size=0.2`) với tham số `stratify=y`.
 2.  **Xử lý Missing Values:**
     * Các cột **Numeric** được impute bằng **Median**.
     * Các cột **Categorical** được impute bằng **Most Frequent** (Mode).
-3.  **Xử lý Outliers:** Sử dụng kỹ thuật **Clipping** (giới hạn giá trị ở **percentile 5%** và **95%** của tập Train) cho các biến Numeric.
+3.  **Xử lý Outliers:** Sử dụng kỹ thuật **Clipping** cho các biến Numeric.
 4.  **Scaling (Chuẩn hóa):** Sử dụng **StandardScaler** cho các biến Numeric.
 5.  **Encoding:** Sử dụng **OneHotEncoder** cho các biến Categorical.
 6.  **Xem xét Kỹ thuật Giảm chiều dữ liệu (Dimensionality Reduction - PCA)**
@@ -78,11 +95,15 @@
 
 ---
 
-## IV. KẾT QUẢ ĐÁNH GIÁ MÔ HÌNH HỌC MÁY TRUYỀN THỐNG
+## 3. Kết quả thực nghiệm (Experimental Results):
 
-Các mô hình được triển khai: Logistic Regression, SVM (RBF), và Random Forest.
-
-### 1. Kết quả trên TEST SET (Tập kiểm tra)
+Nhóm đã thử nghiệm:
+- Pipeline truyền thống được triển khai: Logistic Regression, SVM (RBF), và Random Forest
+    - Đánh giá trên tập test.
+    - Cross-Validation (5-fold CV)
+- Pipeline học sâu với mô hình Mạng nơ-ron đa lớp (MLP – Multi-Layer Perceptron)
+### Pipeline học máy truyền thống:
+### 3.1. Kết quả trên TEST SET (Tập kiểm tra)
 
 | Model | Accuracy | F1 | ROC-AUC | PR-AUC |
 | :--- | :--- | :--- | :--- | :--- |
@@ -90,7 +111,17 @@ Các mô hình được triển khai: Logistic Regression, SVM (RBF), và Random
 | **SVM (RBF)** | 0.924 | 0.950 | 0.969 | 0.989 |
 | **Logistic Regression** | 0.880 | 0.920 | 0.936 | 0.975 |
 
-### 2. Kết quả Cross-Validation (5-fold CV)
+**ROC Curves & Precision-Recall Curves**
+
+<p align="center">
+  <img src="images/roc1.png" width="32%">
+  <img src="images/precision_recall.png" width="32%">
+</p>
+
+**Confusion matrices**
+<img src="images/confusion.png" alt="confusion" width="700">
+
+### 3.2. Kết quả Cross-Validation (5-fold CV)
 
 | Model | Accuracy | F1 | ROC-AUC | PR-AUC |
 | :--- | :--- | :--- | :--- | :--- |
@@ -98,20 +129,18 @@ Các mô hình được triển khai: Logistic Regression, SVM (RBF), và Random
 | **SVM (RBF)** | 0.925 | 0.951 | 0.970 | 0.989 |
 | **Logistic Regression** | 0.885 | 0.923 | 0.937 | 0.976 |
 
+
 ---
 
-## V. MÔ TẢ MÔ HÌNH HỌC SÂU (MLP)
-
-Mạng nơ-ron đa lớp (MLP – Multi-Layer Perceptron) được triển khai để so sánh với các mô hình Học máy truyền thống.
-
-### 1. Kiến trúc Mô hình (Model Architecture)
+### Pipeline học sâu với mô hình Mạng nơ-ron đa lớp (MLP – Multi-Layer Perceptron):
+### 3.4. Kiến trúc Mô hình (Model Architecture)
 
 * **Đầu vào (Input Layer):** Số lượng nơ-ron bằng với số lượng đặc trưng sau khi tiền xử lý (53 cột).
 * **Các Lớp Ẩn (Hidden Layers):** Thử nghiệm với các cấu hình khác nhau (ví dụ: (32,), (64, 32), và (128, 64)).
 * **Hàm Kích hoạt (Activation Function):** **ReLU** cho các lớp ẩn.
 * **Lớp Đầu ra (Output Layer):** Một nơ-ron với hàm kích hoạt **Sigmoid** cho phân loại nhị phân.
 
-### 2. Các Thuật toán và Kỹ thuật Chính
+### 3.5. Các Thuật toán và Kỹ thuật Chính
 
 | Thuật toán/Kỹ thuật | Mục đích | Chi tiết |
 | :--- | :--- | :--- |
@@ -121,9 +150,7 @@ Mạng nơ-ron đa lớp (MLP – Multi-Layer Perceptron) được triển khai 
 | **Kỹ thuật Dropout** | Chống lại **Overfitting**. | Loại bỏ ngẫu nhiên **20% (0.2)** hoặc **30% (0.3)** nơ-ron. |
 | **Epochs** | Số lần toàn bộ tập huấn luyện được chạy qua mạng. | Áp dụng **Early Stopping** để ngăn ngừa overfitting. |
 
----
-
-## VI. KẾT QUẢ MÔ HÌNH HỌC SÂU (MLP)
+### 3.6. Kết quả của mô hình học sâu MLP:
 
 | Hidden Layers | Dropout | Learning Rate | Batch Size | Accuracy | F1 | ROC-AUC | PR-AUC |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
@@ -131,9 +158,12 @@ Mạng nơ-ron đa lớp (MLP – Multi-Layer Perceptron) được triển khai 
 | (64, 32) | (0.3, 0.2) | 0.0010 | 128 | 0.923554 | 0.949523 | 0.964320 | 0.986577 |
 | (128, 64) | (0.3, 0.3) | 0.0005 | 256 | 0.912707 | 0.941664 | 0.958421 | 0.984180 |
 
----
+### 3.7. Kết quả của 4 mô hình khi sử dụng PCA:
+<img src="images/4_pca.png" alt="4pca" width="900">
 
-## VII. KẾT LUẬN VÀ SO SÁNH HIỆU SUẤT
+## 4. Kết luận và so sánh tất cả các mô hình đã thử nghiệm
+<img src="images/all_compare.png" alt="all_compare" width="900">
+
 
 ### Nhận xét chung
 * **Random Forest** là mô hình có hiệu suất tốt nhất, đạt điểm **F1** và **PR-AUC** cao nhất (F1 ~ 0.956, PR-AUC ~ 0.992).

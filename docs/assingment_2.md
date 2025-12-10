@@ -27,7 +27,7 @@
   - BoW + Naive Bayes  
   - TF-IDF + Logistic Regression  
   - TF-IDF + Linear SVM
-  - Embedding + Logistic Regression (LR) + Linear SVM (LinearSVC):
+  - Embedding hiện đại + Logistic Regression (LR) + Linear SVM (LinearSVC):
     - all-MiniLM-L6-v2 
     - DistilBERT-STS 
 - Xây dựng pipeline **deep learning**:
@@ -112,8 +112,38 @@ Trực quan hoá ngôn ngữ:
   - Xóa duplicate trên cặp (`text`, `emotion`).  
   - Loại bỏ các text có conflict label (cùng câu nhưng label khác).  
 - Kích thước train còn: **15 939 dòng**.
+- 
+## 3. Tiền xử lý và trích xuất embedding:
 
-## 3. Kết quả thực nghiệm (Experimental Results)
+### 3.1. Tiền xử lý văn bản:
+Các kỹ thuật tiền xử lý chính đã sử dụng gồm:
+- Chuyển văn bản về chữ thường.
+- Loại bỏ URL, hashtag, mentions và các câu chỉ chứa mentions.
+- Loại bỏ ký tự đặc biệt, tùy chọn giữ lại dấu câu nhẹ (.,!?'-).
+- Loại bỏ số và chuẩn hóa khoảng trắng.
+- Tách token, lọc stopwords tiếng Anh.
+- Lemmatization bằng WordNet.
+Các kỹ thuật tiền xử lý chính đã sử dụng gồm:
+
+### 3.2. Trích xuất Embedding (Modern & Traditional Features)
+
+Dữ liệu cảm xúc được ánh xạ sang không gian vector thông qua hai nhóm kỹ thuật: embedding hiện đại và đặc trưng truyền thống dựa trên n-gram.
+
+**1) Embedding hiện đại (Pretrained Sentence Models)**  
+Áp dụng hai mô hình rút gọn nhưng giàu ngữ nghĩa, tối ưu cho classification:
+- **all-MiniLM-L6-v2**: mô hình Sentence-Transformers 384 chiều.  
+- **DistilBERT-STS**: phiên bản rút gọn từ BERT, embedding 768 chiều.
+
+Các embedding này được trích xuất sẵn và lưu thành file định dạng .npy hoặc .h5 để tái sử dụng.
+
+**2) Đặc trưng truyền thống (BoW / TF-IDF với n-gram)**  
+Hệ thống còn xây dựng đặc trưng cổ điển để so sánh hiệu quả:
+- **BoW (1-gram / 1–2-gram / 1–3-gram)**  
+- **TF-IDF (1-gram / 1–2-gram / 1–3-gram)**  
+
+
+
+## 4. Kết quả thực nghiệm (Experimental Results)
 
 ### Tổng quan
 

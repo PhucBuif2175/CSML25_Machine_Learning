@@ -1,5 +1,5 @@
-# CSML25 – Bài 2: Học máy với dữ liệu dạng văn bản (Text Data)
-## Text Emotion Classification (Notebook `CSML25_BTL2.ipynb`)
+# CSML25 – Bài 2: Học máy với dữ liệu dạng văn bản (Text Data) (Notebook `CSML25_BTL2.ipynb`)
+# Text Emotion Classification 
 ![Emotion](images/dataset2.png)
 
 ## 1. Bài toán & dữ liệu

@@ -2,6 +2,17 @@
 # Text Emotion Classification 
 ![Emotion](images/dataset2.png)
 
+
+## Thông tin chung 
+
+| Mục | Chi tiết |
+| :--- | :--- |
+| **Tên Môn học** | Học máy - CO3117 |
+| **Học kỳ/Năm học** | 251 / 2025 |
+| **Giảng viên** | TS. Lê Thành Sách |
+| **Tên nhóm** | CSML25 |
+| **Thành viên** | Nguyễn Đăng Khánh (2311512), Bùi Ngọc Phúc (2312665), Đinh Hoàng Chung (2310359) |
+
 ## 1. Bài toán & dữ liệu
 
 ### 1.1 Mục tiêu
@@ -9,6 +20,9 @@
 - Xây dựng pipeline machine learning **truyền thống** cho bài toán phân loại cảm xúc câu tiếng Anh.
 - Thực hiện **EDA**:
   - Phân bố nhãn, độ dài câu, kiểm tra missing value, duplicate.
+- Tiền xử lý dữ liệu:
+  - Loại bỏ nhiễu: Xóa các ký tự phi ngôn ngữ như URL, hashtag, mention (@), chữ số và dấu câu.
+  - Chuẩn hóa văn bản: Chuyển đổi chữ thường, xử lý khoảng trắng thừa, lọc bỏ stopword.
 - Thử nghiệm nhiều mô hình:
   - BoW + Naive Bayes  
   - TF-IDF + Logistic Regression  
@@ -20,7 +34,7 @@
   - CNN + pretrained word embeddings (GloVe)  
   - Trích xuất embedding từ CNN, huấn luyện Random Forest trên embedding.
 
-### 1.2 Dataset
+### 1.2 Tổng quan Bộ dữ liệu
 
 - Nguồn: Kaggle – *Emotions dataset for NLP* (`praveengovi/emotions-dataset-for-nlp`).
 - Task: phân loại câu vào 6 cảm xúc:
